@@ -1,7 +1,7 @@
 import AuthorizedPage from "../components/AuthorizedPage";
-import {getAuth} from "firebase/auth";
 import {useState} from "react";
 import { useNavigate } from "react-router-dom"
+import NavBar from "../components/NavBar";
 
 function ItemDisplay ({ name, qt = 1, onChange }) {
   return (
@@ -51,9 +51,7 @@ function Sale() {
 
   return (
     <AuthorizedPage>
-      <h1>Changuito</h1>
-      <button onClick={ () => { getAuth().signOut()} }>Salir</button>
-      <hr/>
+      <NavBar title='Changuito'/>
       <div>
           <input type='search'/>
         <button onClick={() => {

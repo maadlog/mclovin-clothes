@@ -1,14 +1,12 @@
 import './Home.css';
 import {Link} from "react-router-dom";
 import AuthorizedPage from "../components/AuthorizedPage";
-import {getAuth} from "firebase/auth";
+import NavBar from "../components/NavBar";
 
 function Home() {
   return (
     <AuthorizedPage>
-      <h1>Bienvenido!</h1>
-      <button onClick={ () => { getAuth().signOut()} }>Salir</button>
-      <hr/>
+      <NavBar title='Bienvenido!'/>
       <ul>
         <li><Link to='/sale'>Registrar Venta</Link></li>
         <li><Link to='/movement'>Gasto / Inversión</Link></li>

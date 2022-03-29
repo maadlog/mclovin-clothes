@@ -9,9 +9,13 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import Sale from "./pages/Sale";
-import FinishedSale from "./pages/FinishedSale";
 import Movement from "./pages/Movement";
 import FinishedLayout from "./components/FinishedLayout";
+import Stock from "./pages/Stock";
+import Product from "./pages/Product";
+import Administration from "./pages/Administration";
+import IncomeDetails from "./pages/IncomeDetails";
+import OutcomeDetails from "./pages/OutcomeDetails";
 
 export default function App() {
   const auth = getAuth();
@@ -39,6 +43,14 @@ export default function App() {
           <Route path='/movement/finished' element={
             <FinishedLayout barTitle='Movimiento!' title='Movimiento Cargado' backUrl='/movement' backText='Cargar otro movimiento'/>
           }/>
+          <Route path='/stock' element={<Stock />} />
+          <Route path='/product/add' element={<Product />} />
+          <Route path='/product/add/finished' element={
+            <FinishedLayout barTitle='Cargar articulo!' title='Articulo Cargado' backUrl='/product/add' backText='Cargar otro artículo'/>
+          }/>
+          <Route path='/admin' element={<Administration />} />
+          <Route path='/admin/income' element={<IncomeDetails />} />
+          <Route path='/admin/outcome' element={<OutcomeDetails />} />
         </Routes>
       </div>
     </BrowserRouter>

@@ -1,6 +1,6 @@
-import {getAuth} from "firebase/auth";
 import {useNavigate} from "react-router-dom";
 import AuthorizedPage from "../components/AuthorizedPage";
+import NavBar from "../components/NavBar";
 
 function Movement () {
   const navigate = useNavigate()
@@ -10,9 +10,7 @@ function Movement () {
 
   return (
     <AuthorizedPage>
-      <h1>Nuevo movimiento</h1>
-      <button onClick={ () => { getAuth().signOut()} }>Salir</button>
-      <hr/>
+      <NavBar title='Nuevo movimiento'/>
       <form>
         <label htmlFor='description'>Descripci&oacute;n</label>
         <input type='text' id='description'/>
