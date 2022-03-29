@@ -8,6 +8,8 @@ import {
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
+import Sale from "./pages/Sale";
+import FinishedSale from "./pages/FinishedSale";
 
 export default function App() {
   const auth = getAuth();
@@ -27,6 +29,8 @@ export default function App() {
           <Route path='/' element={loginOrRedirection} />
           <Route path='/login' element={loginOrRedirection} />
           <Route path='/home' element={<Home/>} />
+          <Route path='/sale' element={<Sale/>} />
+          <Route path='/sale/finished' element={<FinishedSale/>} />
         </Routes>
       </div>
     </BrowserRouter>
