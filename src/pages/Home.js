@@ -11,7 +11,7 @@ function Home() {
       <hr/>
       <ul>
         <li><Link to='/sale'>Registrar Venta</Link></li>
-        <li><Link to='/spending'>Gasto / Inversión</Link></li>
+        <li><Link to='/movement'>Gasto / Inversión</Link></li>
         <li><Link to='/stock'>Stock</Link></li>
         <li><Link to='/admin'>Administración</Link></li>
       </ul>

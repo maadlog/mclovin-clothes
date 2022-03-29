@@ -10,6 +10,8 @@ import Login from "./pages/Login";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import Sale from "./pages/Sale";
 import FinishedSale from "./pages/FinishedSale";
+import Movement from "./pages/Movement";
+import FinishedLayout from "./components/FinishedLayout";
 
 export default function App() {
   const auth = getAuth();
@@ -30,7 +32,13 @@ export default function App() {
           <Route path='/login' element={loginOrRedirection} />
           <Route path='/home' element={<Home/>} />
           <Route path='/sale' element={<Sale/>} />
-          <Route path='/sale/finished' element={<FinishedSale/>} />
+          <Route path='/sale/finished' element={
+            <FinishedLayout barTitle='Changuito!' title='Venta Cargada' backUrl='/sale' backText='Cargar otra Venta'/>
+          }/>
+          <Route path='/movement' element={<Movement />} />
+          <Route path='/movement/finished' element={
+            <FinishedLayout barTitle='Movimiento!' title='Movimiento Cargado' backUrl='/movement' backText='Cargar otro movimiento'/>
+          }/>
         </Routes>
       </div>
     </BrowserRouter>

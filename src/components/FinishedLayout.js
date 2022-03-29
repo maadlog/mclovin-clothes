@@ -1,21 +1,21 @@
-import AuthorizedPage from "../components/AuthorizedPage";
+import AuthorizedPage from "./AuthorizedPage";
 import {getAuth} from "firebase/auth";
 import {Link} from "react-router-dom";
 
-function FinishedSale() {
+function FinishedLayout({ barTitle, title, backUrl, backText }) {
   return (
     <AuthorizedPage>
-      <h1>Changuito!</h1>
+      <h1>{ barTitle }</h1>
       <button onClick={ () => { getAuth().signOut()} }>Salir</button>
       <hr/>
 
-      <h2>Venta Cargada</h2>
+      <h2>{ title }</h2>
       <ul>
-        <li><Link to='/sale'>Cargar otra Venta</Link></li>
+        <li><Link to={ backUrl }>{ backText }</Link></li>
         <li><Link to='/home'>Volver al inicio</Link></li>
       </ul>
     </AuthorizedPage>
   );
 }
 
-export default FinishedSale;
+export default FinishedLayout;
