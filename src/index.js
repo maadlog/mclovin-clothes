@@ -4,6 +4,18 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import App from "./App";
+import { initializeApp } from 'firebase/app';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBYR6FZ-Rq4UGEkfWDmJfGlYIBw9j3NZvs",
+  authDomain: "mclovin-clothes.firebaseapp.com",
+  projectId: "mclovin-clothes",
+  storageBucket: "mclovin-clothes.appspot.com",
+  messagingSenderId: "496149582953",
+  appId: "1:496149582953:web:9e4720ac6917b952913ef8"
+};
+
+const app = initializeApp(firebaseConfig);
 
 ReactDOM.render(
   <React.StrictMode>
