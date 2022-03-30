@@ -71,3 +71,22 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ### URL
 https://mclovin-clothes.web.app
+
+### DB Structure
+```
+{
+  investments: {
+    "one": { desc: "", amount: 123 , timestamp: 12314124}    
+  },
+  spendings: {
+    "one": { desc: "", amount: 123 , timestamp: 12314124}
+  },
+  sales: {
+    "one": { desc: "", sale: "", purchase: "", timestamp: 12314124 }
+  }
+  "products": {
+     "coso1": { sale: "", purchase: "", qt: 123 }
+     "coso2": { sale: "", purchase: "", qt: 123 }
+  }
+}
+```

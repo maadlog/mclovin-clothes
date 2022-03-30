@@ -5,10 +5,12 @@ import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import App from "./App";
 import { initializeApp } from 'firebase/app';
+import { getDatabase, connectDatabaseEmulator } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBYR6FZ-Rq4UGEkfWDmJfGlYIBw9j3NZvs",
   authDomain: "mclovin-clothes.firebaseapp.com",
+  databaseURL: "https://mclovin-clothes-default-rtdb.firebaseio.com",
   projectId: "mclovin-clothes",
   storageBucket: "mclovin-clothes.appspot.com",
   messagingSenderId: "496149582953",
@@ -16,6 +18,13 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// eslint-disable-next-line no-restricted-globals
+if (location.hostname === "localhost") {
+  // Point to the RTDB emulator running on localhost.
+  connectDatabaseEmulator(db, "localhost", 9000);
+}
 
 ReactDOM.render(
   <React.StrictMode>
