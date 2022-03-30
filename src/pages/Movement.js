@@ -3,15 +3,9 @@ import AuthorizedPage from "../components/AuthorizedPage";
 import NavBar from "../components/NavBar";
 import MovementsRepository from "../services/MovementsRepository";
 import {useState} from "react";
+import {mapValueTo} from "../utils/FormUtils";
 
 function Movement () {
-
-  const mapValueTo = (fn) => {
-    return (event) => {
-      return fn(event.target.value)
-    }
-  }
-
   const navigate = useNavigate()
   const [amount, setAmount] = useState(0)
   const [description, setDescription] = useState('')

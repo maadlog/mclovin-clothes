@@ -1,36 +1,39 @@
 import NavBar from "../components/NavBar";
 import AuthorizedPage from "../components/AuthorizedPage";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import ProductsRepository from "../services/ProductsRepository";
 
 function Stock () {
-  const originalData = [
-    { description: 'coso1', stock: 1, salePrice: 100 },
-    { description: 'coso2', stock: 3, salePrice: 300 },
-    { description: 'coso3', stock: 8, salePrice: 600 },
-    { description: 'coso4', stock: 2, salePrice: 300 },
-    { description: 'coso5', stock: 1, salePrice: 700 },
-  ]
-  const [data, setData] = useState(originalData)
+  const [data, setData] = useState([])
   const [filter, setFilter] = useState('')
+  const searchElement = useRef(null);
   const navigate = useNavigate()
   const add = () => {
     navigate('/product/add')
   }
 
+  useEffect(() => {
+    async function fetchProducts() {
+      const products = await new ProductsRepository().getProducts(filter)
+      setData(products)
+    }
+    fetchProducts()
+  }, [filter])
+
   return (
     <AuthorizedPage>
       <NavBar title='Stock'/>
-      <input type='search' onChange={ (event) => { setFilter(event.target.value) } }/>
+      <input type='search' ref={searchElement}/>
       <button onClick={() => {
-        setData(originalData.filter(x => x.description.includes(filter)))
+        setFilter(searchElement.current.value)
       }} >Buscar</button>
 
       <ul>
-        { data.map(item => <li key={item.description}>
-          <p>{item.description}</p>
-          <p>{item.stock} en Stock</p>
-          <p>${item.salePrice}</p>
+        { data.map(item => <li key={item.desc}>
+          <p>{item.desc}</p>
+          <p>{item.qt} en Stock</p>
+          <p>${item.sale}</p>
         </li>)}
       </ul>
 
