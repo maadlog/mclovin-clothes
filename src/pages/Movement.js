@@ -38,6 +38,15 @@ function Movement () {
 
         <button onClick={ finishMovement }>Confirmar</button>
       </form>
+      <div>
+        <h2>Ayuda:</h2>
+        <p> Algunos movimientos comunes: </p>
+        <ul>
+          <li>Alquiler: Cargar un gasto y si lo paga Martín o Mamá, una inversión</li>
+          <li>Compras a Proveedores: Cargar una inversión con el total que pusimos, el gasto lo calcula solo cuando cargamos las prendas</li>
+          <li>Yerba, Edenor, ABL, etc.: Todos gastos</li>
+        </ul>
+      </div>
     </AuthorizedPage>
   )
 }
