@@ -1,11 +1,11 @@
-import {child, get, getDatabase, push, query, ref, set} from "firebase/database";
+import {child, get, push, query, ref, set} from "firebase/database";
 import {Timestamp} from "firebase/firestore";
+import BaseRepository from "./BaseRepository";
 
-class SalesRepository {
+class SalesRepository extends BaseRepository {
   saveSale(description, purchasePrice, salePrice) {
-    const db = getDatabase();
-    const key = push(child(ref(db), 'sales')).key
-    set(ref(db, 'sales/' + key), {
+    const key = push(child(ref(this.db), this.base + '/sales')).key
+    set(ref(this.db, this.base + '/sales/' + key), {
       desc: description,
       purchase: Number.parseFloat(purchasePrice),
       sale: Number.parseFloat(salePrice),
@@ -14,8 +14,7 @@ class SalesRepository {
   }
 
   async getSales () {
-    const db = getDatabase()
-    const salesRef = query(ref(db, 'sales')) // TODO: Limit and order by timestamp ----, orderByChild('desc'), startAt(customStart ?? search), endAt(search+'\uf8ff'), limitToFirst(pageSize))
+    const salesRef = query(ref(this.db, this.base + '/sales'))
     const result = await get(salesRef)
     if (result.exists()) {
       return Object.values(result.val()) ?? []

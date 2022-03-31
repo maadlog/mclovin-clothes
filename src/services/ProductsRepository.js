@@ -2,7 +2,6 @@ import {
   child,
   endAt,
   get,
-  getDatabase,
   limitToFirst,
   orderByChild,
   push,
@@ -13,12 +12,12 @@ import {
   update
 } from "firebase/database";
 import {Timestamp} from "firebase/firestore";
+import BaseRepository from "./BaseRepository";
 
-class ProductsRepository {
+class ProductsRepository extends BaseRepository {
   saveProduct (description, purchasePrice, salePrice, quantity) {
-    const db = getDatabase();
-    const key = push(child(ref(db), 'products')).key
-    set(ref(db, 'products/' + key), {
+    const key = push(child(ref(this.db), this.base + '/products')).key
+    set(ref(this.db, this.base + '/products/' + key), {
       desc: description,
       purchase: Number.parseFloat(purchasePrice),
       sale: Number.parseFloat(salePrice),
@@ -28,17 +27,16 @@ class ProductsRepository {
   }
 
   setStock (productKey, quantity, desc) {
-    const db = getDatabase();
     const qt = Math.max(quantity, 0)
-    update(ref(db, 'products/' + productKey), { qt });
+    const updates = { qt }
     if (qt === 0) {
-      update(ref(db, 'products/' + productKey), { desc: '_VENDIDO_'+desc });
+      updates.desc = '_VENDIDO_'+desc
     }
+    update(ref(this.db, this.base + '/products/' + productKey), updates);
   }
 
   async getProducts (search, customStart = null, pageSize = 20) {
-    const db = getDatabase()
-    const productsRef = query(ref(db, 'products'), orderByChild('desc'), startAt(customStart ?? search), endAt(search+'\uf8ff'), limitToFirst(pageSize))
+    const productsRef = query(ref(this.db, this.base + '/products'), orderByChild('desc'), startAt(customStart ?? search), endAt(search+'\uf8ff'), limitToFirst(pageSize))
     const result = await get(productsRef)
     if (result.exists()) {
       return Object.entries(result.val()).map(([key, value]) => {
@@ -50,8 +48,7 @@ class ProductsRepository {
   }
 
   async getProductsPurchased () {
-    const db = getDatabase()
-    const productsRef = query(ref(db, 'products')) // TODO Filter by timestamp, orderByChild('desc'), startAt(customStart ?? search), endAt(search+'\uf8ff'), limitToFirst(pageSize))
+    const productsRef = query(ref(this.db, this.base + '/products'))
     const result = await get(productsRef)
     if (result.exists()) {
       return Object.values(result.val()) ?? []

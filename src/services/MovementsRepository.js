@@ -1,23 +1,18 @@
 import {
-  getDatabase,
   ref,
   set,
   push,
   child,
   query,
-  orderByChild,
-  startAt,
-  endAt,
-  limitToFirst,
   get
 } from "firebase/database";
 import { Timestamp } from "firebase/firestore";
+import BaseRepository from "./BaseRepository";
 
-class MovementsRepository {
+class MovementsRepository extends BaseRepository {
   saveInvestment (description, amount) {
-    const db = getDatabase();
-    const key = push(child(ref(db), 'investments')).key
-    set(ref(db, 'investments/' + key), {
+    const key = push(child(ref(this.db), this.base + '/investments')).key
+    set(ref(this.db, this.base + '/investments/' + key), {
       desc: description,
       amount: Number.parseFloat(amount),
       timestamp : Timestamp.now().toMillis()
@@ -25,9 +20,8 @@ class MovementsRepository {
   }
 
   saveSpending (description, amount) {
-    const db = getDatabase();
-    const key = push(child(ref(db), 'spendings')).key
-    set(ref(db, 'spendings/' + key), {
+    const key = push(child(ref(this.db), this.base + '/spendings')).key
+    set(ref(this.db, this.base + '/spendings/' + key), {
       desc: description,
       amount: Number.parseFloat(amount),
       timestamp : Timestamp.now().toMillis()
@@ -35,8 +29,7 @@ class MovementsRepository {
   }
 
   async getInvestments () {
-    const db = getDatabase()
-    const investmentsRef = query(ref(db, 'investments')) // TODO: Limit and order by timestamp ----, orderByChild('desc'), startAt(customStart ?? search), endAt(search+'\uf8ff'), limitToFirst(pageSize))
+    const investmentsRef = query(ref(this.db, this.base + '/investments'))
     const result = await get(investmentsRef)
     if (result.exists()) {
       return Object.values(result.val()) ?? []
@@ -46,8 +39,7 @@ class MovementsRepository {
   }
 
   async getSpendings () {
-    const db = getDatabase()
-    const spendingsRef = query(ref(db, 'spendings')) // TODO: Limit and order by timestamp ----, orderByChild('desc'), startAt(customStart ?? search), endAt(search+'\uf8ff'), limitToFirst(pageSize))
+    const spendingsRef = query(ref(this.db, this.base + '/spendings'))
     const result = await get(spendingsRef)
     if (result.exists()) {
       return Object.values(result.val()) ?? []
