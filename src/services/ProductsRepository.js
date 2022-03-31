@@ -1,16 +1,16 @@
 import {
+  child,
+  endAt,
+  get,
   getDatabase,
+  limitToFirst,
+  orderByChild,
+  push,
+  query,
   ref,
   set,
-  query,
-  limitToFirst,
-  get,
-  orderByChild,
   startAt,
-  startAfter,
-  endAt,
-  push,
-  child
+  update
 } from "firebase/database";
 import {Timestamp} from "firebase/firestore";
 
@@ -27,14 +27,23 @@ class ProductsRepository {
     });
   }
 
+  setStock (productKey, quantity, desc) {
+    const db = getDatabase();
+    const qt = Math.max(quantity, 0)
+    update(ref(db, 'products/' + productKey), { qt });
+    if (qt === 0) {
+      update(ref(db, 'products/' + productKey), { desc: '_VENDIDO_'+desc });
+    }
+  }
+
   async getProducts (search, customStart = null, pageSize = 20) {
     const db = getDatabase()
     const productsRef = query(ref(db, 'products'), orderByChild('desc'), startAt(customStart ?? search), endAt(search+'\uf8ff'), limitToFirst(pageSize))
     const result = await get(productsRef)
     if (result.exists()) {
-      console.log(result)
-      const data = result.val()
-      return Object.values(data) ?? []
+      return Object.entries(result.val()).map(([key, value]) => {
+        return {key, ...value}
+      }) ?? []
     } else {
       return null
     }
