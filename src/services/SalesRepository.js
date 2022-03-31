@@ -1,4 +1,4 @@
-import {child, getDatabase, push, ref, set} from "firebase/database";
+import {child, get, getDatabase, push, query, ref, set} from "firebase/database";
 import {Timestamp} from "firebase/firestore";
 
 class SalesRepository {
@@ -11,6 +11,17 @@ class SalesRepository {
       sale: Number.parseFloat(salePrice),
       timestamp: Timestamp.now().toMillis()
     });
+  }
+
+  async getSales () {
+    const db = getDatabase()
+    const salesRef = query(ref(db, 'sales')) // TODO: Limit and order by timestamp ----, orderByChild('desc'), startAt(customStart ?? search), endAt(search+'\uf8ff'), limitToFirst(pageSize))
+    const result = await get(salesRef)
+    if (result.exists()) {
+      return Object.values(result.val()) ?? []
+    } else {
+      return []
+    }
   }
 }
 

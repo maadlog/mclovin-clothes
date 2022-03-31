@@ -45,9 +45,21 @@ class ProductsRepository {
         return {key, ...value}
       }) ?? []
     } else {
-      return null
+      return []
     }
   }
+
+  async getProductsPurchased () {
+    const db = getDatabase()
+    const productsRef = query(ref(db, 'products')) // TODO Filter by timestamp, orderByChild('desc'), startAt(customStart ?? search), endAt(search+'\uf8ff'), limitToFirst(pageSize))
+    const result = await get(productsRef)
+    if (result.exists()) {
+      return Object.values(result.val()) ?? []
+    } else {
+      return []
+    }
+  }
+
 }
 
 export default ProductsRepository
