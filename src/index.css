@@ -1,8 +1,104 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,400;1,200;1,400;1,800&display=swap');
 
 body {
-  margin: 0;
-  font-family: "Nunito Sans", sans-serif;
+	margin: 0;
+	font-family: "Nunito Sans", sans-serif;
+	background-color: #EFEFEF;
+	--rojo-supreme: #ED1C24;
 }
 
+ul {
+	list-style: none;
+}
 
+input {
+	border-radius: 0;
+	height: 30px;
+	border-color: #BCBCBC;
+	border-width: 1px;
+	margin: 10px;
+	border-style: solid;
+}
+
+input:focus-visible {
+	border-radius: 0;
+	height: 30px;
+	border-color: #BCBCBC;
+	border-width: 1px;
+	margin: 10px;
+	
+}
+
+button {
+	background: none;
+	border: none;
+	font-family: "Nunito Sans", sans-serif;
+	font-size: 16px;
+}
+
+/*---------------HEADER-------------------*/
+header {
+	background-color: var(--rojo-supreme);
+	padding: 1em;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+h1 {
+	margin: 0;
+	color: white;
+	font-weight: 800;
+	font-style: italic;
+	font-size: 40pt;
+	letter-spacing: -1px;
+}
+
+header nav {
+	display: flex;
+	width: 200px;
+	justify-content: space-evenly;
+}
+
+header a {
+	color: white;
+	text-decoration: none;
+}
+
+header button {
+	color: white;
+	background-color:
+}
+
+/*---------------HEADER-------------------*/
+
+/*---------------HOME-------------------*/
+
+.botonera-principal {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0;
+	margin: 20px;
+}
+
+.botonera-principal a {
+	text-decoration: none;
+	color: black;
+	font-weight: 800;
+	font-size: 1.2em;
+}
+
+.botonera-principal a:hover {
+	background-color: var(--rojo-supreme);
+	color: white;
+	
+}
+
+.botonera-principal li {
+	margin: 30px 0 0 0;
+}
+
+/*---------------HOME-------------------*/
+
+/*---------------HOME-------------------*/
