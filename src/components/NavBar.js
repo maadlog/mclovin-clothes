@@ -3,12 +3,13 @@ import {Link} from "react-router-dom";
 
 function NavBar ({ title }) {
 
-  return (<>
+  return (<header>
       <h1>{title}</h1>
-      <Link to='/home'>Inicio</Link>
-      <button onClick={ () => { getAuth().signOut()} }>Cerrar Sesi&oacute;n</button>
-      <hr/>
-    </>
+      	<nav>
+		 	<Link to='/home'>Inicio</Link>
+			<button onClick={ () => { getAuth().signOut()} }>Cerrar Sesi&oacute;n</button>
+		</nav>
+    </header>
   )
 }
 
