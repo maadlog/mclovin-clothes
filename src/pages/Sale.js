@@ -77,7 +77,7 @@ function Sale() {
   return (
     <AuthorizedPage>
       <NavBar title='Changuito'/>
-      <div>
+      <main>
           <ProductSearch onProductSelect={ (product) => {
             if (product.qt <= 0 || cart.some(x => x.desc === product.desc)) { return }
             setCart(cart.concat(product))
@@ -86,7 +86,7 @@ function Sale() {
         <Cart items={ cart } removeItem={ (itemDesc) => {
           setCart(prev => prev.filter(x => x.desc !== itemDesc))
         }  }/>
-      </div>
+      </main>
     </AuthorizedPage>
   );
 }
