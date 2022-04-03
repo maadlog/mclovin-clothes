@@ -6,8 +6,8 @@ import NavBar from "../components/NavBar";
 function Home() {
   return (
     <AuthorizedPage>
-      <NavBar title='Bienvenido!'/>
-      <ul>
+      <NavBar title='McLovin'/>
+      <ul className="botonera-principal">
         <li><Link to='/sale'>Registrar Venta</Link></li>
         <li><Link to='/movement'>Gasto / Inversión</Link></li>
         <li><Link to='/stock'>Stock</Link></li>
