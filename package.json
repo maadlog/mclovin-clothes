@@ -33,6 +33,7 @@
     "deploy": "firebase deploy",
     "test": "react-scripts test",
     "lint": "eslint \"src/**\" --ext .jsx,.js --fix",
+    "emulators": "firebase emulators:start --only database,firestore,storage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

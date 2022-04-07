@@ -12,6 +12,7 @@ import {
 	getDocs
 } from 'firebase/firestore'
 import BaseRepository from './BaseRepository'
+import { getStorage, ref, uploadBytes } from 'firebase/storage'
 
 class ProductsRepository extends BaseRepository {
 	constructor(date) {
@@ -19,7 +20,7 @@ class ProductsRepository extends BaseRepository {
 		this.productsCollection = collection(this.firestore, 'products')
 		this.productPurchasesCollection = collection(this.baseDocument, 'product-purchases')
 	}
-	async saveProduct (description, purchasePrice, salePrice, quantity) {
+	async saveProduct (description, purchasePrice, salePrice, quantity, pictureFile) {
 		const value = {
 			desc: description,
 			purchase: Number.parseFloat(purchasePrice),
@@ -34,6 +35,10 @@ class ProductsRepository extends BaseRepository {
 			desc: `${value.desc}*${value.qt}`,
 			amount: value.purchase * value.qt
 		})
+
+		if (pictureFile) {
+			await this.setPicture(docRef.id, pictureFile)
+		}
 	}
 
 	async setStock (productKey, quantity, desc) {
@@ -43,6 +48,13 @@ class ProductsRepository extends BaseRepository {
 			updates.desc = '_VENDIDO_'+desc
 		}
 		await setDoc(doc(this.productsCollection, productKey), updates, { merge: true })
+	}
+
+	async setPicture (productKey, imageFile) {
+		const storage = getStorage()
+		const picReference = ref(storage, `product-pictures/${productKey}/picture.jpg`)
+
+		await uploadBytes(picReference, imageFile)
 	}
 
 	async getProducts (search, customStart = null, pageSize = 20) {

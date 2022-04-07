@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import ProductsRepository from '../services/ProductsRepository'
 import { useState } from 'react'
 import { mapValueTo } from '../utils/FormUtils'
+import CompressedImageInput from '../components/CompressedImageInput'
 
 function Product () {
 	const navigate = useNavigate()
@@ -11,10 +12,14 @@ function Product () {
 	const [purchasePrice, setPurchasePrice] = useState('')
 	const [salePrice, setSalePrice] = useState('')
 	const [quantity, setQuantity] = useState('')
+	const [pictureFile, setPictureFile] = useState(null)
+
 	const save = () => {
 		new ProductsRepository()
-			.saveProduct(description, purchasePrice, salePrice, quantity)
-		navigate('/product/add/finished')
+			.saveProduct(description, purchasePrice, salePrice, quantity, pictureFile)
+			.then(()=> {
+				navigate('/product/add/finished')
+			})
 	}
 
 	return (<AuthorizedPage>
@@ -32,9 +37,11 @@ function Product () {
 			<label htmlFor='quantity'>Cantidad</label>
 			<input type='number' id='quantity' onChange={ mapValueTo(setQuantity) }/>
 
+			<label htmlFor='picture'>Foto (Opcional)</label>
+			<CompressedImageInput id='picture' setPictureFile={setPictureFile}/>
+
 			<button onClick={ save }>Confirmar</button>
 		</form>
-
 	</AuthorizedPage>)
 }
 

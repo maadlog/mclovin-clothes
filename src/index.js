@@ -6,6 +6,7 @@ import App from './App'
 import { initializeApp } from 'firebase/app'
 import { getDatabase, connectDatabaseEmulator } from 'firebase/database'
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
+import { getStorage, connectStorageEmulator } from 'firebase/storage'
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyBYR6FZ-Rq4UGEkfWDmJfGlYIBw9j3NZvs',
@@ -21,12 +22,14 @@ const app = initializeApp(firebaseConfig)
 
 const db = getDatabase(app)
 const firestore = getFirestore(app)
+const storage = getStorage(app)
 
 // eslint-disable-next-line no-restricted-globals
 if (location.hostname === 'localhost') {
 	// Point to the RTDB emulator running on localhost.
 	connectDatabaseEmulator(db, 'localhost', 9000)
 	connectFirestoreEmulator(firestore, 'localhost', 8080)
+	connectStorageEmulator(storage, 'localhost', 9199)
 }
 
 ReactDOM.render(
