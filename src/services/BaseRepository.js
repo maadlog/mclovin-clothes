@@ -1,4 +1,3 @@
-import { getDatabase } from 'firebase/database'
 import { doc, collection, getFirestore, getDocs } from 'firebase/firestore'
 
 function dbKeyForperiod (date) {
@@ -8,7 +7,6 @@ function dbKeyForperiod (date) {
 class BaseRepository {
 	constructor(date  = new Date()) {
 		this.base = dbKeyForperiod(date)
-		this.db = getDatabase()
 		this.firestore = getFirestore()
 		const ledgers = collection(this.firestore, 'monthly-ledgers')
 		this.baseDocument = doc(ledgers, this.base)
