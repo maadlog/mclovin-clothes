@@ -12,7 +12,7 @@ import {
 	getDocs
 } from 'firebase/firestore'
 import BaseRepository from './BaseRepository'
-import { getStorage, ref, uploadBytes } from 'firebase/storage'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 class ProductsRepository extends BaseRepository {
 	constructor(date) {
@@ -50,11 +50,17 @@ class ProductsRepository extends BaseRepository {
 		await setDoc(doc(this.productsCollection, productKey), updates, { merge: true })
 	}
 
-	async setPicture (productKey, imageFile) {
+	_getPictureReference (productKey) {
 		const storage = getStorage()
-		const picReference = ref(storage, `product-pictures/${productKey}/picture.jpg`)
+		return ref(storage, `product-pictures/${productKey}/picture.png`)
+	}
 
-		await uploadBytes(picReference, imageFile)
+	async setPicture (productKey, imageFile) {
+		await uploadBytes(this._getPictureReference(productKey), imageFile)
+	}
+
+	async getPictureUrl (productKey) {
+		return getDownloadURL(this._getPictureReference(productKey))
 	}
 
 	async getProducts (search, customStart = null, pageSize = 20) {

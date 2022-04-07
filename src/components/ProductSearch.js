@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import ProductsRepository from '../services/ProductsRepository'
 import PropTypes from 'prop-types'
+import { ProductDisplay } from './ProductDisplay'
 
 function ProductSearch({ onProductSelect }) {
 	const [data, setData] = useState([])
@@ -22,11 +23,7 @@ function ProductSearch({ onProductSelect }) {
 		}} >Buscar</button>
 
 		<ul>
-			{ data.map(item => <li key={item.desc} onClick={ () => onProductSelect(item) }>
-				<p>{item.desc}</p>
-				<p>{item.qt} en Stock</p>
-				<p>${item.sale}</p>
-			</li>)}
+			{ data.map(item => <ProductDisplay key={item.desc} product={item} onClick={ () => onProductSelect(item) } />) }
 		</ul>
 	</>)
 }

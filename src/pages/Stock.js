@@ -3,8 +3,9 @@ import AuthorizedPage from '../components/AuthorizedPage'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ProductsRepository from '../services/ProductsRepository'
+import { ProductDisplay } from '../components/ProductDisplay'
 
-function Stock () {
+export default function Stock () {
 	const [data, setData] = useState([])
 	const [filter, setFilter] = useState('')
 	const searchElement = useRef(null)
@@ -30,11 +31,7 @@ function Stock () {
 			}} >Buscar</button>
 
 			<ul>
-				{ data.map(item => <li key={item.desc}>
-					<p>{item.desc}</p>
-					<p>{item.qt} en Stock</p>
-					<p>${item.sale}</p>
-				</li>)}
+				{ data.map(item => <ProductDisplay key={item.desc} product={item} />) }
 			</ul>
 
 			<button onClick={ add }>+</button>
@@ -42,5 +39,3 @@ function Stock () {
 		</AuthorizedPage>
 	)
 }
-
-export default Stock
