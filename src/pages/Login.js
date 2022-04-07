@@ -1,24 +1,34 @@
-import { GoogleAuthProvider, getAuth } from 'firebase/auth'
-import { auth } from 'firebaseui'
-import { useEffect } from 'react'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
-	useEffect(() => {
-		const ui = new auth.AuthUI(getAuth())
-		ui.start('#firebaseui-auth-container', {
-			signInSuccessUrl: '/home',
-			signInOptions: [
-				// List of OAuth providers supported.
-				GoogleAuthProvider.PROVIDER_ID
-			]
-		})
-	}, [])
+	const [loading, setLoading] = useState(false)
+	const [error, setError] = useState(null)
+	const navigate = useNavigate()
+	const loginWithGoogle = (event) => {
+		event.preventDefault()
+		setLoading(true)
+
+		const auth = getAuth()
+		const provider = new GoogleAuthProvider()
+
+		signInWithPopup(auth, provider)
+			.then(() => {
+				navigate('/home')
+			})
+			.catch((firebaseError) => {
+				setError(firebaseError.message)
+			})
+	}
 
 
 	return (
 		<div>
 			<h1>Digite la clave</h1>
-			<div id="firebaseui-auth-container" />
+			{ loading && <p>LOADING!!!</p>}
+			{ error && <p>{ error }</p>}
+			<button onClick={ loginWithGoogle }>Logueate con Google!</button>
 		</div>
 	)
 }
