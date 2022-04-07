@@ -14,7 +14,8 @@ function Product () {
 	const [quantity, setQuantity] = useState('')
 	const [pictureFile, setPictureFile] = useState(null)
 
-	const save = () => {
+	const save = (event) => {
+		event.preventDefault()
 		new ProductsRepository()
 			.saveProduct(description, purchasePrice, salePrice, quantity, pictureFile)
 			.then(()=> {
@@ -26,7 +27,7 @@ function Product () {
 		<NavBar title='Cargar Artículo'/>
 		<form>
 			<label htmlFor='description'>Descripci&oacute;n</label>
-			<input type='text' id='description' onChange={ mapValueTo(setDescription) }/>
+			<input type='text' id='description' onChange={ mapValueTo(setDescription) } />
 
 			<label htmlFor='purchasePrice'>Precio Compra</label>
 			<input type='number' id='purchasePrice' onChange={ mapValueTo(setPurchasePrice) }/>
@@ -40,8 +41,11 @@ function Product () {
 			<label htmlFor='picture'>Foto (Opcional)</label>
 			<CompressedImageInput id='picture' setPictureFile={setPictureFile}/>
 
+			{ pictureFile && <img src={URL.createObjectURL(pictureFile)} alt='Foto para subir' width={250} height={250}/> }
+
 			<button onClick={ save }>Confirmar</button>
 		</form>
+
 	</AuthorizedPage>)
 }
 

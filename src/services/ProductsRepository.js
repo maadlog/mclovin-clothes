@@ -21,6 +21,9 @@ class ProductsRepository extends BaseRepository {
 		this.productPurchasesCollection = collection(this.baseDocument, 'product-purchases')
 	}
 	async saveProduct (description, purchasePrice, salePrice, quantity, pictureFile) {
+		if (!description || !purchasePrice || !salePrice || !quantity) {
+			throw new Error('Validation error')
+		}
 		const value = {
 			desc: description,
 			purchase: Number.parseFloat(purchasePrice),

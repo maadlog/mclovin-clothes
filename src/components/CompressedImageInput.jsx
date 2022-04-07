@@ -5,7 +5,7 @@ async function compressImageFileToSizeAndSet (event, canvas, setter, setState) {
 	setState('loading')
 	try {
 		const file = event.target.files[0]
-		const blob = URL.createObjectURL(file)
+		const objectURL = URL.createObjectURL(file)
 		const ctx = canvas.getContext('2d')
 
 		const img = new Image()
@@ -25,7 +25,7 @@ async function compressImageFileToSizeAndSet (event, canvas, setter, setState) {
 				}
 			},'image/png', 0.7)
 		}
-		img.src = blob
+		img.src = objectURL
 	} catch (e) {
 		setState('error')
 	}
