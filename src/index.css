@@ -26,7 +26,7 @@ input:focus-visible {
 	border-color: #BCBCBC;
 	border-width: 1px;
 	margin: 10px;
-	
+
 }
 
 button {
@@ -67,7 +67,6 @@ header a {
 
 header button {
 	color: white;
-	background-color:
 }
 
 /*---------------HEADER-------------------*/
@@ -92,7 +91,7 @@ header button {
 .botonera-principal a:hover {
 	background-color: var(--rojo-supreme);
 	color: white;
-	
+
 }
 
 .botonera-principal li {

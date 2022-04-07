@@ -1,52 +1,38 @@
-import {
-  ref,
-  set,
-  push,
-  child,
-  query,
-  get
-} from "firebase/database";
-import { Timestamp } from "firebase/firestore";
-import BaseRepository from "./BaseRepository";
+import { addDoc, collection } from 'firebase/firestore'
+import { Timestamp } from 'firebase/firestore'
+import BaseRepository from './BaseRepository'
 
 class MovementsRepository extends BaseRepository {
-  saveInvestment (description, amount) {
-    const key = push(child(ref(this.db), this.base + '/investments')).key
-    set(ref(this.db, this.base + '/investments/' + key), {
-      desc: description,
-      amount: Number.parseFloat(amount),
-      timestamp : Timestamp.now().toMillis()
-    });
-  }
 
-  saveSpending (description, amount) {
-    const key = push(child(ref(this.db), this.base + '/spendings')).key
-    set(ref(this.db, this.base + '/spendings/' + key), {
-      desc: description,
-      amount: Number.parseFloat(amount),
-      timestamp : Timestamp.now().toMillis()
-    });
-  }
+	constructor() {
+		super()
+		this.investmentsCollection = collection(this.baseDocument, 'investments')
+		this.spendingsCollection =  collection(this.baseDocument, 'spendings')
+	}
 
-  async getInvestments () {
-    const investmentsRef = query(ref(this.db, this.base + '/investments'))
-    const result = await get(investmentsRef)
-    if (result.exists()) {
-      return Object.values(result.val()) ?? []
-    } else {
-      return []
-    }
-  }
+	async saveInvestment (description, amount) {
+		await addDoc(this.investmentsCollection, {
+			desc: description,
+			amount: Number.parseFloat(amount),
+			timestamp : Timestamp.now().toMillis()
+		})
+	}
 
-  async getSpendings () {
-    const spendingsRef = query(ref(this.db, this.base + '/spendings'))
-    const result = await get(spendingsRef)
-    if (result.exists()) {
-      return Object.values(result.val()) ?? []
-    } else {
-      return []
-    }
-  }
+	async saveSpending (description, amount) {
+		await addDoc(this.spendingsCollection, {
+			desc: description,
+			amount: Number.parseFloat(amount),
+			timestamp : Timestamp.now().toMillis()
+		})
+	}
+
+	async getInvestments () {
+		return this._getAllDocsFromCollection(this.investmentsCollection)
+	}
+
+	async getSpendings () {
+		return this._getAllDocsFromCollection(this.spendingsCollection)
+	}
 }
 
-export default MovementsRepository;
+export default MovementsRepository

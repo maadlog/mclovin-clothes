@@ -1,10 +1,36 @@
-import AuthorizedPage from "../components/AuthorizedPage";
-import NavBar from "../components/NavBar";
+import AuthorizedPage from '../components/AuthorizedPage'
+import NavBar from '../components/NavBar'
+import { useEffect, useState } from 'react'
+import MovementsRepository from '../services/MovementsRepository'
+import ProductsRepository from '../services/ProductsRepository'
+import { useSearchParams } from 'react-router-dom'
 
 function OutcomeDetails() {
-  return <AuthorizedPage>
-    <NavBar title='Egresos'/>
-    <p>En construcción</p>
-  </AuthorizedPage>
+	let [searchParams] = useSearchParams()
+	let paramsDate = searchParams.get('baseDate')
+	const [data, setData] = useState([])
+
+	useEffect(() => {
+		const baseDate = new Date(paramsDate)
+		async function fetch () {
+			const movementsRepo = new MovementsRepository(baseDate)
+			const productsRepo = new ProductsRepository(baseDate)
+			const spendings = await movementsRepo.getSpendings()
+			const purchases = await productsRepo.getProductsPurchased()
+			setData(spendings.concat(purchases))
+		}
+		fetch()
+	}, [paramsDate])
+
+	const details = data
+		.sort((x, y) => x.timestamp > y.timestamp ? -1 : 1)
+		.map((x, index) => {
+			return (<div key={index}><p>{x.desc} : ${x.sale ?? x.amount}</p></div>)
+		})
+
+	return <AuthorizedPage>
+		<NavBar title='Egresos'/>
+		{ details }
+	</AuthorizedPage>
 }
-export default OutcomeDetails;
+export default OutcomeDetails

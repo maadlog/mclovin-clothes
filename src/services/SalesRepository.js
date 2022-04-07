@@ -1,27 +1,23 @@
-import {child, get, push, query, ref, set} from "firebase/database";
-import {Timestamp} from "firebase/firestore";
-import BaseRepository from "./BaseRepository";
+import { addDoc, collection, Timestamp } from 'firebase/firestore'
+import BaseRepository from './BaseRepository'
 
 class SalesRepository extends BaseRepository {
-  saveSale(description, purchasePrice, salePrice) {
-    const key = push(child(ref(this.db), this.base + '/sales')).key
-    set(ref(this.db, this.base + '/sales/' + key), {
-      desc: description,
-      purchase: Number.parseFloat(purchasePrice),
-      sale: Number.parseFloat(salePrice),
-      timestamp: Timestamp.now().toMillis()
-    });
-  }
+	constructor(date) {
+		super(date)
+		this.salesCollection = collection(this.baseDocument, 'sales')
+	}
+	async saveSale(description, purchasePrice, salePrice) {
+		await addDoc(this.salesCollection,{
+			desc: description,
+			purchase: Number.parseFloat(purchasePrice),
+			sale: Number.parseFloat(salePrice),
+			timestamp: Timestamp.now().toMillis()
+		})
+	}
 
-  async getSales () {
-    const salesRef = query(ref(this.db, this.base + '/sales'))
-    const result = await get(salesRef)
-    if (result.exists()) {
-      return Object.values(result.val()) ?? []
-    } else {
-      return []
-    }
-  }
+	async getSales () {
+		return await this._getAllDocsFromCollection(this.salesCollection)
+	}
 }
 
-export default SalesRepository;
+export default SalesRepository

@@ -1,14 +1,27 @@
-import {getDatabase} from "firebase/database";
+import { getDatabase } from 'firebase/database'
+import { doc, collection, getFirestore, getDocs } from 'firebase/firestore'
 
 function dbKeyForperiod (date) {
-  return `${date.getUTCFullYear()}${date.getUTCMonth()}`
+	return `${date.getUTCFullYear()}${date.getUTCMonth()}`
 }
 
 class BaseRepository {
-  constructor(date  = new Date()) {
-    this.base = dbKeyForperiod(date)
-    this.db = getDatabase();
-  }
+	constructor(date  = new Date()) {
+		this.base = dbKeyForperiod(date)
+		this.db = getDatabase()
+		this.firestore = getFirestore()
+		const ledgers = collection(this.firestore, 'monthly-ledgers')
+		this.baseDocument = doc(ledgers, this.base)
+	}
+
+	async _getAllDocsFromCollection(collectionRef) {
+		const snapshot = await getDocs(collectionRef)
+		const result = []
+		snapshot.forEach((doc) => {
+			result.push({ id: doc.id, ...doc.data() })
+		})
+		return result
+	}
 }
 
 export default BaseRepository
