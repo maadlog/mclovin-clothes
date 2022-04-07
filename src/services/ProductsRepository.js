@@ -16,7 +16,7 @@ import BaseRepository from './BaseRepository'
 class ProductsRepository extends BaseRepository {
 	constructor(date) {
 		super(date)
-		this.productsCollection = collection(this.baseDocument, 'products')
+		this.productsCollection = collection(this.firestore, 'products')
 		this.productPurchasesCollection = collection(this.baseDocument, 'product-purchases')
 	}
 	async saveProduct (description, purchasePrice, salePrice, quantity) {
