@@ -24,11 +24,16 @@ function Login() {
 
 
 	return (
-		<div>
-			<h1>Digite la clave</h1>
-			{ loading && <p>LOADING!!!</p>}
-			{ error && <p>{ error }</p>}
-			<button onClick={ loginWithGoogle }>Logueate con Google!</button>
+		<div className='login-background'>
+			<div className='login-card'>
+				<h1>Digite la clave</h1>
+				{ loading && <p className='loading'>Cargando...</p>}
+				{ error && <p className='error'>{ error }</p>}
+				<button className='boton-google' onClick={ loginWithGoogle }>
+					<img src='./Google_G_Logo.svg' alt='Google Logo'/>
+					<p>Inicia sesión con Google</p>
+				</button>
+			</div>
 		</div>
 	)
 }

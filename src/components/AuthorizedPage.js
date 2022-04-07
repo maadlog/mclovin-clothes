@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
@@ -21,11 +21,9 @@ function AuthorizedPage({ children, ...rest }) {
 			{ children }
 		</div>)
 	} else {
-		return (<div {...rest}>
-			<h1>Parece que no hiciste login!</h1>
-			<h2>Pasate por acá</h2>
-			<Link to='/'>Click para ir al login</Link>
-		</div>)
+		return (
+			<Navigate to={'/'} />
+		)
 	}
 }
 

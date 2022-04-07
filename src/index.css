@@ -70,7 +70,52 @@ header button {
 }
 
 /*---------------HEADER-------------------*/
+/*---------------LOGIN--------------------*/
+.login-background {
+	display: flex;
+	align-content: center;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+}
+.login-card {
+	background-color: white;
+	padding: 40px;
+	border-radius: 20px;
+	height: 40%;
+	box-shadow: 5px 5px 10px #00000030;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.login-card h1 {
+	background-color: var(--rojo-supreme);
+	padding: 0 4px;
+}
+.login-card .loading {
+	text-align: center;
+}
+.login-card .error {
+	text-align: center;
+	color: var(--rojo-supreme);
+}
+.boton-google {
+	box-shadow: 5px 5px 10px #00000030;
+	padding: 15px;
+	border-radius: 30px;
+	border: 1px solid black;
+	display: flex;
+	align-content: center;
+	align-items: center;
+}
+.boton-google p {
+	text-align: center;
+	flex-grow: 1;
+	padding: 0;
+	margin: 0;
+}
 
+/*---------------LOGIN--------------------*/
 /*---------------HOME-------------------*/
 
 .botonera-principal {
