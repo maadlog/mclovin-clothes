@@ -11,6 +11,9 @@ class MovementsRepository extends BaseRepository {
 	}
 
 	async saveInvestment (description, amount) {
+		if (!description || !amount) {
+			throw new Error('Validation error')
+		}
 		await addDoc(this.investmentsCollection, {
 			desc: description,
 			amount: Number.parseFloat(amount),
@@ -19,6 +22,9 @@ class MovementsRepository extends BaseRepository {
 	}
 
 	async saveSpending (description, amount) {
+		if (!description || !amount) {
+			throw new Error('Validation error')
+		}
 		await addDoc(this.spendingsCollection, {
 			desc: description,
 			amount: Number.parseFloat(amount),

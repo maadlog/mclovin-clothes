@@ -43,6 +43,7 @@ header {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
+	width: 100%;
 }
 
 h1 {
@@ -145,4 +146,60 @@ header button {
 
 /*---------------HOME-------------------*/
 
-/*---------------HOME-------------------*/
+/*---------------MOVEMENT---------------*/
+.ayuda-card {
+	background-color: white;
+	width: 80%;
+	margin: 20px;
+	padding: 0 20px;
+	border-radius: 20px;
+	max-width: 700px;
+}
+.ayuda-card ul {
+	margin-top: 0;
+}
+.bold {
+	font-weight: 800;
+	font-style: italic;
+}
+.form-movimiento {
+	display: flex;
+	flex-direction: column;
+	width: 50%;
+	max-width: 500px;
+}
+.form-movimiento .row {
+	display: flex;
+	align-items: center;
+}
+.form-movimiento input {
+	flex-grow: 1;
+	margin: 10px;
+}
+.form-movimiento select {
+	flex-grow: 1;
+	margin: 10px;
+}
+.form-movimiento label {
+	width: 20%;
+}
+.form-movimiento button {
+	margin: 20px;
+	font-size: 16pt;
+}
+.form-movimiento button:hover {
+	background-color: var(--rojo-supreme);
+	color: white;
+	font-weight: 800;
+	font-style: italic;
+	letter-spacing: -1px;
+}
+.movimiento-body {
+	width: 100vw;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+
+/*---------------MOVEMENT---------------*/
