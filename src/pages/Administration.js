@@ -46,12 +46,12 @@ function Administration () {
 	const month = baseDate.toLocaleString('default', { month: 'short' })
 	const year = baseDate.toLocaleString('default', { year: 'numeric' })
 
-	return <AuthorizedPage>
+	return <AuthorizedPage className='movimiento-body'>
 		<NavBar title='Administración' />
 
-		<div>
+		<div className='periodo-container'>
 			<h2>Per&iacute;odo : <span className='underlined' onClick={() => setShowDatePicker(!showDatePicker) }>{month} {year}</span></h2>
-			<div style={{ display: showDatePicker ? 'flex' : 'none' }}>
+			<div style={{ display: showDatePicker ? 'flex' : 'none' }} className="search-container">
 				<input type='date' ref={ref} onChange={() => setShowSearch(true)}/>
 				<button style={{ display: showSearch? 'flex' : 'none' }} className='search-button' onClick={ () => {
 					setBaseDate(new Date(ref.current.value))
@@ -62,7 +62,10 @@ function Administration () {
 			</div>
 
 		</div>
-		<div>
+		
+		<hr />
+		
+		<div className='balance'>
 			<p>Caja: ${cashAvailable}</p>
 			<p>Reinversi&oacute;n: ${reinvestment}</p>
 			<p>Ganancia: ${earnings}</p>
@@ -70,7 +73,7 @@ function Administration () {
 
 		<hr />
 
-		<div>
+		<div className='balance'>
 			<p>Ingresos: ${income}</p>
 			<p>Inversiones: ${investmentsTotal}</p>
 			<p>Ventas: ${salesTotal}</p>
@@ -79,7 +82,7 @@ function Administration () {
 
 		<hr />
 
-		<div>
+		<div className='balance'>
 			<p>Egresos: ${expenses}</p>
 			<p>Compras: ${purchasesTotal}</p>
 			<p>Gastos: ${spendingsTotal}</p>
