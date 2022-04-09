@@ -94,7 +94,6 @@ function Sale() {
 					if (product.qt <= 0 || cart.some(x => x.desc === product.desc)) { return }
 					setCart(cart.concat(product))
 				}} />
-
 				<Cart items={ cart } removeItem={ (itemDesc) => {
 					setCart(prev => prev.filter(x => x.desc !== itemDesc))
 				}  }/>

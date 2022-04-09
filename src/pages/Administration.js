@@ -14,6 +14,9 @@ function Administration () {
 	const [investments, setInvestments] = useState([])
 	const [purchases, setPurchases] = useState([])
 
+	const [showDatePicker, setShowDatePicker] = useState(false)
+	const [showSearch, setShowSearch] = useState(false)
+
 	useEffect(() => {
 		if (!baseDate) { return }
 		async function fetch () {
@@ -46,12 +49,19 @@ function Administration () {
 	return <AuthorizedPage>
 		<NavBar title='Administración' />
 
-		<h2>Per&iacute;odo : {month} {year}</h2>
-		<input type='date' ref={ref} />
-		<button onClick={ () => {
-			setBaseDate(new Date(ref.current.value))
-		}} >Buscar</button>
+		<div>
+			<h2>Per&iacute;odo : <span className='underlined' onClick={() => setShowDatePicker(!showDatePicker) }>{month} {year}</span></h2>
+			<div style={{ display: showDatePicker ? 'flex' : 'none' }}>
+				<input type='date' ref={ref} onChange={() => setShowSearch(true)}/>
+				<button style={{ display: showSearch? 'flex' : 'none' }} className='search-button' onClick={ () => {
+					setBaseDate(new Date(ref.current.value))
+					setShowSearch(false)
+				}} >
+					<span className='material-icons-round gris'>search</span>
+				</button>
+			</div>
 
+		</div>
 		<div>
 			<p>Caja: ${cashAvailable}</p>
 			<p>Reinversi&oacute;n: ${reinvestment}</p>
