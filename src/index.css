@@ -233,8 +233,8 @@ header button {
 	box-shadow: 1px 1px 5px lightgrey;
 	background-color: white;
 	border-radius: 100px;
-	width: 40px;
-	height: 40px;
+	width: 35px;
+	height: 35px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -242,4 +242,45 @@ header button {
 
 .search-button.gris {
 	color: #404040;
+}
+
+.search-container {
+	align-items: center;
+	width: 170px;
+}
+
+.periodo-container {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+    align-items: center;
+}
+
+.underlined {
+	font-weight: 200;
+	font-style: italic;
+	background-color: white;
+	padding: 6px;
+	box-shadow: 1px 1px 5px lightgrey;
+}
+
+.movimiento-body hr {
+	width: 100%;
+}
+
+.balance {
+	align-self: flex-start;
+    margin: 0 10%;
+}
+
+.balance a {
+	display: block;
+	margin-block-start: 1em;
+    margin-block-end: 1em;
+	background-color: #151515;
+	color: #E3E3E3;
+	width: 80px;
+	text-align: center;
+	padding: 5px 0;
+	text-decoration: none;
 }
