@@ -6,14 +6,16 @@ import glove from '../assets/glove.png'
 
 function FinishedLayout({ barTitle, title, backUrl, backText }) {
 	return (
-		<AuthorizedPage>
+		<AuthorizedPage className='finished-container'>
 			<NavBar title={ barTitle }/>
-			<img src={glove} width={200} height={200} alt='Ok!'/>
-			<h2>{ title }</h2>
-			<ul>
-				<li><Link to={ backUrl }>{ backText }</Link></li>
-				<li><Link to='/home'>Volver al inicio</Link></li>
-			</ul>
+			<div className='finished-card'>
+				<img src={glove} width={200} height={200} alt='Ok!'/>
+				<h2 className='finished-title'>{ title }</h2>
+				<ul className='botonera-principal finished-botonera'>
+					<li><Link to={ backUrl }>{ backText }</Link></li>
+					<li><Link to='/home'>Volver al inicio</Link></li>
+				</ul>
+			</div>
 		</AuthorizedPage>
 	)
 }

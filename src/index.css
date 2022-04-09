@@ -200,6 +200,29 @@ header button {
 	flex-direction: column;
 	align-items: center;
 }
-
-
 /*---------------MOVEMENT---------------*/
+
+/* -------------FINISHED----------------*/
+
+.finished-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	align-content: center;
+	text-align: center;
+}
+.finished-card {
+	margin: 40px;
+}
+.finished-title {
+	margin-bottom: 0;
+	font-size: 30pt;
+	font-weight: bold;
+	font-style: italic;
+}
+.finished-botonera {
+	margin: 0;
+}
+
+/* -------------FINISHED----------------*/
