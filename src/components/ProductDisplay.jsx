@@ -11,11 +11,13 @@ export function ProductDisplay({ product }) {
 			.catch(() => { console.log('Failed loading picture for '+product.id)})
 	}, [product])
 
-	return <li>
+	return <li className='product-display'>
 		<img src={imgUrl} alt={'Foto de ' + product.desc} width={100} height={100}/>
-		<p>{product.desc}</p>
-		<p>{product.qt} en Stock</p>
-		<p>${product.sale}</p>
+		<div className='data'>
+			<p className='bold'>{product.desc}</p>
+			<p>{product.qt} en Stock</p>
+		</div>
+		<p className='bold'>${product.sale}</p>
 	</li>
 }
 

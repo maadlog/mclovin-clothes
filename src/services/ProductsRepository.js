@@ -26,6 +26,7 @@ class ProductsRepository extends BaseRepository {
 		}
 		const value = {
 			desc: description,
+			desc_insensitive: description.toUpperCase(),
 			purchase: Number.parseFloat(purchasePrice),
 			sale: Number.parseFloat(salePrice),
 			qt: Number.parseInt(quantity),
@@ -67,8 +68,11 @@ class ProductsRepository extends BaseRepository {
 	}
 
 	async getProducts (search, customStart = null, pageSize = 20) {
-		const querySearch = query(this.productsCollection, orderBy('desc'),
-			startAt(customStart ?? search),
+
+		const start = (customStart ?? search).toUpperCase()
+		const querySearch = query(this.productsCollection,
+			orderBy('desc_insensitive'),
+			startAt(start),
 			endAt(search + '\uf8ff'),
 			limit(pageSize))
 		const snapshot = await getDocs(querySearch)

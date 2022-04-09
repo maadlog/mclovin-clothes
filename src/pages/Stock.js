@@ -15,26 +15,34 @@ export default function Stock () {
 	}
 
 	useEffect(() => {
-		async function fetchProducts() {
-			const products = await new ProductsRepository().getProducts(filter)
-			setData(products)
-		}
-		fetchProducts()
+		new ProductsRepository().getProducts(filter).then(setData)
 	}, [filter])
 
 	return (
-		<AuthorizedPage>
+		<AuthorizedPage className='movimiento-body'>
 			<NavBar title='Stock'/>
-			<input type='search' ref={searchElement}/>
-			<button onClick={() => {
-				setFilter(searchElement.current.value)
-			}} >Buscar</button>
+			<div className='search-bar width-limit-content'>
+				<input type='search' ref={searchElement} placeholder={'Buscar'}/>
+				<button className='icon-button search-button' onClick={ () => {
+					setFilter(searchElement.current.value)
+				}} >
+					<span className='material-icons-round gris'>search</span>
+				</button>
+			</div>
 
-			<ul>
+			<div className='width-limit-content'>
+				<button className='add-button-desktop' onClick={ add }>
+					<span className='material-icons-round gris'>add</span> Agregar
+				</button>
+			</div>
+
+			<ul className='product-list width-limit-content'>
 				{ data.map(item => <ProductDisplay key={item.desc} product={item} />) }
 			</ul>
 
-			<button onClick={ add }>+</button>
+			<button className='icon-button add-button' onClick={ add }>
+				<span className='material-icons-round gris'>add</span>
+			</button>
 
 		</AuthorizedPage>
 	)
