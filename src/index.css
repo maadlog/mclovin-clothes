@@ -44,6 +44,8 @@ header {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
+}
+.movimiento-body header {
 	width: 100%;
 }
 
@@ -54,6 +56,7 @@ h1 {
 	font-style: italic;
 	font-size: 40pt;
 	letter-spacing: -1px;
+	text-align: center;
 }
 
 header nav {
@@ -169,6 +172,7 @@ header button {
 	width: 50%;
 	max-width: 500px;
 }
+
 .form-movimiento .row {
 	display: flex;
 	align-items: center;
@@ -183,6 +187,7 @@ header button {
 }
 .form-movimiento label {
 	width: 20%;
+	min-width: 85px;
 }
 .form-movimiento button {
 	margin: 20px;
@@ -373,6 +378,9 @@ header button {
 	}
 	.add-button {
 		display: flex;
+	}
+	.form-movimiento {
+		width: 80%;
 	}
 }
 
