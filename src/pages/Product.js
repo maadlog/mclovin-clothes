@@ -23,25 +23,27 @@ function Product () {
 			})
 	}
 
-	return (<AuthorizedPage>
+	return (<AuthorizedPage className='movimiento-body'>
 		<NavBar title='Cargar Artículo'/>
-		<form>
-			<label htmlFor='description'>Descripci&oacute;n</label>
-			<input type='text' id='description' onChange={ mapValueTo(setDescription) } />
-
-			<label htmlFor='purchasePrice'>Precio Compra</label>
-			<input type='number' id='purchasePrice' onChange={ mapValueTo(setPurchasePrice) }/>
-
-			<label htmlFor='salePrice'>Precio Venta</label>
-			<input type='number' id='salePrice' onChange={ mapValueTo(setSalePrice) }/>
-
-			<label htmlFor='quantity'>Cantidad</label>
-			<input type='number' id='quantity' onChange={ mapValueTo(setQuantity) }/>
-
-			<label htmlFor='picture'>Foto (Opcional)</label>
+		<form className='form-movimiento'>
 			<CompressedImageInput id='picture' setPictureFile={setPictureFile}/>
 
-			{ pictureFile && <img src={URL.createObjectURL(pictureFile)} alt='Foto para subir' width={250} height={250}/> }
+			<div className='row'>
+				<label htmlFor='description'>Descripci&oacute;n</label>
+				<input type='text' id='description' onChange={ mapValueTo(setDescription) } />
+			</div>
+			<div className='row'>
+				<label htmlFor='purchasePrice'>$ Compra</label>
+				<input type='number' id='purchasePrice' onChange={ mapValueTo(setPurchasePrice) }/>
+			</div>
+			<div className='row'>
+				<label htmlFor='salePrice'>$ Venta</label>
+				<input type='number' id='salePrice' onChange={mapValueTo(setSalePrice)}/></div>
+
+			<div className='row'>
+				<label htmlFor='quantity'>Cantidad</label>
+				<input type='number' id='quantity' onChange={ mapValueTo(setQuantity) }/>
+			</div>
 
 			<button onClick={ save }>Confirmar</button>
 		</form>

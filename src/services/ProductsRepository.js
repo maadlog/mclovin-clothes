@@ -68,7 +68,6 @@ class ProductsRepository extends BaseRepository {
 	}
 
 	async getProducts (search, customStart = null, pageSize = 20) {
-
 		const start = (customStart ?? search).toUpperCase()
 		const querySearch = query(this.productsCollection,
 			orderBy('desc_insensitive'),

@@ -33,16 +33,29 @@ async function compressImageFileToSizeAndSet (event, canvas, setter, setState) {
 
 export default function CompressedImageInput({ id, setPictureFile }) {
 	const [state, setState] = useState('none')
+	const [pictureFileInternal, setInternalPictureFile] = useState(null)
 	const canvasRef = useRef(null)
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'row' }}>
-			<input type='file' id={ id } accept='image/*' multiple={false} capture='user' onChange={ (event) => {
-				compressImageFileToSizeAndSet(event, canvasRef.current, setPictureFile, setState)
+		<div className='compressed-image-input'>
+			<label htmlFor={ id }>
+				{ state === 'loaded' && <img src={URL.createObjectURL(pictureFileInternal)} alt='Foto para subir' width={250} height={250}/> }
+				{ state === 'loading' && <p>⏳</p> }
+				{ state === 'error' && <p>❌</p> }
+				{ state === 'none' && <>
+					<div className='add-button-all'>
+						<span className='material-icons-round'>add</span>
+					</div>
+					<p>Cargar foto</p>
+				</>
+				}
+			</label>
+			<input style={{ display: 'none' }} type='file' id={ id } accept='image/*' multiple={false} capture='user' onChange={ (event) => {
+				compressImageFileToSizeAndSet(event, canvasRef.current, (file) => {
+					setInternalPictureFile(file)
+					setPictureFile(file)
+				}, setState)
 			} }/>
-			{ state === 'loading' && <p>⏳</p> }
-			{ state === 'loaded' && <p>✅</p> }
-			{ state === 'error' && <p>❌</p> }
 			<canvas ref={canvasRef}
 				style={{ display: 'none' }}
 				width={500}

@@ -7,48 +7,28 @@ import SalesRepository from '../services/SalesRepository'
 import { mapValueTo } from '../utils/FormUtils'
 import ProductsRepository from '../services/ProductsRepository'
 import PropTypes from 'prop-types'
-
-function ItemDisplay ({ name, qt, stock, price, onChange }) {
-	return (
-		<li>
-			<p>Item: {name} - {qt} * ${price}</p>
-			<button disabled={qt >= stock} onClick={ () => {
-				onChange(name, qt + 1)
-			} }>+</button>
-			<button onClick={ () => {
-				onChange(name, qt - 1)
-			} }>-</button>
-		</li>
-	)
-}
-ItemDisplay.propTypes = {
-	name: PropTypes.string,
-	qt: PropTypes.number,
-	stock: PropTypes.number,
-	price: PropTypes.number,
-	onChange: PropTypes.func
-}
+import { ProductDisplayWithStock } from '../components/ProductDisplay'
 
 
 function Cart ({ items, removeItem }) {
-	const [values, setValues] = useState({})
+	const [products, setProducts] = useState({})
 	const [manualSubtotal, setSubtotal] = useState(null)
 	const navigate = useNavigate()
 	const finishSale = () => {
 		if (items.length === 0) { return }
 		const description = items.reduce((prev, item) => {
-			return prev + `${item.desc}*${values[item.desc] ?? 1} `
+			return prev + `${item.desc}*${products[item.desc] ?? 1} `
 		}, '')
 		const purchasePrice = items.reduce((prev, item) => {
-			return prev + (item.purchase * (values[item.desc] ?? 1))
+			return prev + (item.purchase * (products[item.desc] ?? 1))
 		}, 0)
 		const salePrice = manualSubtotal ?? items.reduce((prev, item) => {
-			return prev + (item.sale * (values[item.desc] ?? 1))
+			return prev + (item.sale * (products[item.desc] ?? 1))
 		}, 0)
 		new SalesRepository().saveSale(description, purchasePrice, salePrice)
 		const productsRepo = new ProductsRepository()
 		for (const item of items) {
-			const newStock = item.qt - (values[item.desc] ?? 1)
+			const newStock = item.qt - (products[item.desc] ?? 1)
 			productsRepo.setStock(item.key, newStock, item.desc)
 		}
 		navigate('/sale/finished')
@@ -59,22 +39,25 @@ function Cart ({ items, removeItem }) {
 			removeItem(itemDesc)
 			return
 		}
-		setValues({ ...values, [itemDesc]: value })
+		setProducts({ ...products, [itemDesc]: value })
 	}
 
 	const itemDisplays = items
 		.map( (item) => (
-			<ItemDisplay key={item.desc} name={item.desc} price={item.sale} qt={values[item.desc] ?? 1} stock={item.qt} onChange={ onChange }/>
+			<ProductDisplayWithStock key={item.desc} product={item} stock={products[item.desc] ?? 1} onChange={ onChange }/>
 		))
 
-	const subtotal = items.map((item) => item.sale * (values[item.desc] ?? 1)).reduce((a, b) => a + b, 0)
+	const subtotal = items.map((item) => item.sale * (products[item.desc] ?? 1)).reduce((a, b) => a + b, 0)
 
 	return (
-		<>
-			<ul>{itemDisplays}</ul>
-			<p>Subtotal</p><input type='number' placeholder={subtotal} onChange={ mapValueTo((x) => setSubtotal(Number.parseFloat(x))) } />
-			<button onClick={ finishSale }>Hecho</button>
-		</>
+		<div className='cart-container width-limit-content'>
+			<ul className='cart-list'>{itemDisplays}</ul>
+			<div className='subtotal'>
+				<p>Subtotal</p>
+				<input type='number' placeholder={subtotal} onChange={ mapValueTo((x) => setSubtotal(Number.parseFloat(x))) } />
+			</div>
+			<button className='confirmar-button' onClick={ finishSale }>Confirmar</button>
+		</div>
 	)
 }
 Cart.propTypes = {
@@ -87,13 +70,15 @@ function Sale() {
 	const [cart, setCart] = useState(() => [])
 
 	return (
-		<AuthorizedPage>
+		<AuthorizedPage className='movimiento-body'>
 			<NavBar title='Changuito'/>
-			<main>
-				<ProductSearch onProductSelect={ (product) => {
-					if (product.qt <= 0 || cart.some(x => x.desc === product.desc)) { return }
-					setCart(cart.concat(product))
-				}} />
+			<main className='sale-main'>
+				<ProductSearch
+					onProductSelect={ (product) => {
+						if (product.qt <= 0 || cart.some(x => x.desc === product.desc)) { return }
+						setCart(cart.concat(product))
+					}}
+				/>
 				<Cart items={ cart } removeItem={ (itemDesc) => {
 					setCart(prev => prev.filter(x => x.desc !== itemDesc))
 				}  }/>

@@ -330,30 +330,32 @@ header button {
 }
 .search-bar {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	margin: 20px;
 }
 
 .search-bar input {
 	flex-grow: 1;
-	margin-left: 0;
+	margin: 0;
+	width: 100%;
 }
 
 .product-list {
 	display: flex;
 	flex-direction: column;
-	padding: 0 50px;
+	padding: 0;
 }
 
 .product-display {
 	border-top: 1px solid gray;
 	display: flex;
 	gap: 10px;
-	width: 100%;
 	padding: 25px 10px;
 }
 .product-display:last-child {
 	border-bottom: 1px solid gray;
+	margin-bottom: 40px;
 }
 
 .product-display img {
@@ -372,6 +374,133 @@ header button {
 .add-button {
 	display: none;
 }
+
+/*------------Cargar Articulo-----------*/
+.compressed-image-input {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin: 20px;
+}
+.compressed-image-input label {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: #00000020;
+	width: 250px;
+	height: 250px;
+}
+.compressed-image-input label img{
+	width: 100%;
+	height: 100%;
+}
+.compressed-image-input .add-button-all {
+	background-color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 30px;
+	width: 60px;
+	height: 60px;
+}
+.add-button-all span {
+	font-size: 64px;
+}
+.compressed-image-input p {
+	font-size: 16pt;
+	margin: 10px;
+}
+/*--------------Cargar artículo---------------*/
+
+/*------------Venta----------------------*/
+.product-search-results-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.product-search-results {
+	background-color: white;
+	margin: 0;
+}
+.product-search-results .product-display:last-child {
+	margin-bottom: 0;
+}
+.sale-main {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.expand-less {
+	display: flex;
+	justify-content: center;
+	padding: 4px;
+	background-color: white;
+}
+.cart-container {
+	display: flex;
+	flex-direction: column;
+}
+.cart-list {
+	padding: 0;
+	margin: 0;
+}
+.stock-controls {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	background-color: white;
+
+}
+.stock-controls p {
+	font-size: 16pt;
+	border-top: solid black 1px;
+	border-bottom: solid black 1px;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: content-box;
+}
+.stock-controls button {
+	box-sizing: content-box;
+	margin: 0;
+	padding: 0;
+	font-size: 20pt;
+	border: solid black 1px;
+	width: 40px;
+	height: 40px;
+}
+.product-price-details {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.product-price-details .price{
+	text-align: center;
+}
+.subtotal {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border: 1px solid black;
+	padding: 0 20px;
+}
+.cart-container .confirmar-button {
+	margin-top: 20px;
+	background-color: black;
+	color: white;
+	font-size: 14pt;
+	width: min-content;
+	flex-shrink: 1;
+	padding: 5px 20px;
+	align-self: flex-end;
+}
+/*-----------------Venta-----------------*/
+
 @media screen and (max-width: 600px) {
 	.add-button-desktop {
 		display: none;
@@ -381,6 +510,10 @@ header button {
 	}
 	.form-movimiento {
 		width: 80%;
+	}
+	.compressed-image-input label {
+		width: 200px;
+		height: 200px;
 	}
 }
 

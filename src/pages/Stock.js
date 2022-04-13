@@ -15,14 +15,16 @@ export default function Stock () {
 	}
 
 	useEffect(() => {
-		new ProductsRepository().getProducts(filter).then(setData)
+		if (filter) {
+			new ProductsRepository().getProducts(filter === '*' ? '' : filter).then(setData)
+		}
 	}, [filter])
 
 	return (
 		<AuthorizedPage className='movimiento-body'>
 			<NavBar title='Stock'/>
 			<div className='search-bar width-limit-content'>
-				<input type='search' ref={searchElement} placeholder={'Buscar'}/>
+				<input type='search' ref={searchElement} placeholder={'Buscar ( * para ver todos )'}/>
 				<button className='icon-button search-button' onClick={ () => {
 					setFilter(searchElement.current.value)
 				}} >
