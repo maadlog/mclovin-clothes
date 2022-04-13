@@ -1,8 +1,8 @@
 import AuthorizedPage from './AuthorizedPage'
-import { Link } from 'react-router-dom'
 import NavBar from './NavBar'
 import PropTypes from 'prop-types'
 import glove from '../assets/glove.png'
+import StyledLink from './StyledLink'
 
 function FinishedLayout({ barTitle, title, backUrl, backText }) {
 	return (
@@ -12,8 +12,8 @@ function FinishedLayout({ barTitle, title, backUrl, backText }) {
 				<img src={glove} width={200} height={200} alt='Ok!'/>
 				<h2 className='finished-title'>{ title }</h2>
 				<ul className='botonera-principal finished-botonera'>
-					<li><Link to={ backUrl }>{ backText }</Link></li>
-					<li><Link to='/home'>Volver al inicio</Link></li>
+					<li><StyledLink to={ backUrl} text={ backText} /></li>
+					<li><StyledLink to='/home' text='Volver al inicio' /></li>
 				</ul>
 			</div>
 		</AuthorizedPage>

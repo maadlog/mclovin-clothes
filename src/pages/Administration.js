@@ -1,10 +1,10 @@
 import AuthorizedPage from '../components/AuthorizedPage'
 import NavBar from '../components/NavBar'
-import { Link } from 'react-router-dom'
 import MovementsRepository from '../services/MovementsRepository'
 import SalesRepository from '../services/SalesRepository'
 import { useEffect, useRef, useState } from 'react'
 import ProductsRepository from '../services/ProductsRepository'
+import StyledLink from '../components/StyledLink'
 
 function Administration () {
 	const [baseDate, setBaseDate] = useState(new Date())
@@ -78,7 +78,7 @@ function Administration () {
 			<p>Ingresos: ${income}</p>
 			<p>Inversiones: ${investmentsTotal}</p>
 			<p>Ventas: ${salesTotal}</p>
-			<Link to={`/admin/income?baseDate=${baseDate.toISOString()}`}>Detalles</Link>
+			<StyledLink to={`/admin/income?baseDate=${baseDate.toISOString()}`} text='Detalles' />
 		</div>
 
 		<hr />
@@ -87,7 +87,7 @@ function Administration () {
 			<p>Egresos: ${expenses}</p>
 			<p>Compras: ${purchasesTotal}</p>
 			<p>Gastos: ${spendingsTotal}</p>
-			<Link to={`/admin/outcome?baseDate=${baseDate.toISOString()}`}>Detalles</Link>
+			<StyledLink to={`/admin/outcome?baseDate=${baseDate.toISOString()}`} text='Detalles' />
 		</div>
 
 	</AuthorizedPage>

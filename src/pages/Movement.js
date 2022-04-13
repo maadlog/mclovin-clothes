@@ -4,6 +4,7 @@ import NavBar from '../components/NavBar'
 import MovementsRepository from '../services/MovementsRepository'
 import { useState } from 'react'
 import { mapValueTo } from '../utils/FormUtils'
+import StyledButton from '../components/StyledButton'
 
 function Movement () {
 	const navigate = useNavigate()
@@ -49,7 +50,7 @@ function Movement () {
 						<option label='Inversión' value='investment' />
 					</select>
 				</div>
-				<button onClick={ finishMovement }>Confirmar</button>
+				<StyledButton onClick={finishMovement} text='Confirmar' />
 			</form>
 
 		</AuthorizedPage>

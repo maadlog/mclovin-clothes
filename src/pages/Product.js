@@ -5,6 +5,7 @@ import ProductsRepository from '../services/ProductsRepository'
 import { useState } from 'react'
 import { mapValueTo } from '../utils/FormUtils'
 import CompressedImageInput from '../components/CompressedImageInput'
+import StyledButton from '../components/StyledButton'
 
 function Product () {
 	const navigate = useNavigate()
@@ -45,7 +46,7 @@ function Product () {
 				<input type='number' id='quantity' onChange={ mapValueTo(setQuantity) }/>
 			</div>
 
-			<button onClick={ save }>Confirmar</button>
+			<StyledButton onClick={save} text='Confirmar' />
 		</form>
 
 	</AuthorizedPage>)

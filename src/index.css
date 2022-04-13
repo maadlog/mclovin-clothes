@@ -132,16 +132,8 @@ header button {
 }
 
 .botonera-principal a {
-	text-decoration: none;
-	color: black;
 	font-weight: 800;
 	font-size: 1.2em;
-}
-
-.botonera-principal a:hover {
-	background-color: var(--rojo-supreme);
-	color: white;
-
 }
 
 .botonera-principal li {
@@ -189,16 +181,9 @@ header button {
 	width: 20%;
 	min-width: 85px;
 }
-.form-movimiento button {
-	margin: 20px;
-	font-size: 16pt;
-}
-.form-movimiento button:hover {
-	background-color: var(--rojo-supreme);
-	color: white;
-	font-weight: 800;
-	font-style: italic;
-	letter-spacing: -1px;
+.form-movimiento .styled-button {
+	margin-top: 20px;
+	align-self: flex-end;
 }
 .movimiento-body {
 	width: 100vw;
@@ -281,16 +266,11 @@ header button {
     margin: 0 10%;
 }
 
-.balance a {
+.balance .styled-link {
 	display: block;
-	margin-block-start: 1em;
-    margin-block-end: 1em;
-	background-color: #151515;
-	color: #E3E3E3;
-	width: 80px;
-	text-align: center;
-	padding: 5px 0;
-	text-decoration: none;
+	width: min-content;
+	margin-bottom: 1em;
+	flex-grow: 0;
 }
 
 /* -------------STOCK--------------*/
@@ -317,16 +297,6 @@ header button {
 	height: 50px;
 }
 
-.add-button-desktop {
-	display: flex;
-	align-items: center;
-	color: white;
-	background-color: black;
-	padding-right: 15px;
-}
-.add-button-desktop span {
-	padding-right: 5px;
-}
 .width-limit-content {
 	width: 70%;
 	max-width: 350px;
@@ -492,17 +462,42 @@ header button {
 	border: 1px solid black;
 	padding: 0 20px;
 }
-.cart-container .confirmar-button {
+.cart-container .styled-button {
 	margin-top: 20px;
-	background-color: black;
-	color: white;
-	font-size: 14pt;
-	width: min-content;
-	flex-shrink: 1;
-	padding: 5px 20px;
 	align-self: flex-end;
 }
 /*-----------------Venta-----------------*/
+
+/*-----------------Custom Components-----------------*/
+.styled-button {
+	background-color: black;
+	color: white;
+	padding: 5px 15px;
+	cursor: pointer;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	width: min-content;
+	gap: 5px;
+}
+.styled-button p {
+	margin: 0;
+}
+.styled-button:hover {
+	background-color: var(--rojo-supreme);
+}
+
+.styled-link {
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
+}
+.styled-link:hover {
+	background-color: var(--rojo-supreme);
+	color: white;
+}
+/*-----------------Custom Components-----------------*/
 
 /*----------Detalle-----------*/
 .detalle-movimiento {

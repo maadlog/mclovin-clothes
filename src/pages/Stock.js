@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import ProductsRepository from '../services/ProductsRepository'
 import { ProductDisplay } from '../components/ProductDisplay'
 import { debounce } from 'lodash'
+import StyledButton from '../components/StyledButton'
 
 export default function Stock () {
 	const [data, setData] = useState([])
@@ -44,9 +45,7 @@ export default function Stock () {
 			</div>
 
 			<div className='width-limit-content'>
-				<button className='add-button-desktop' onClick={ add }>
-					<span className='material-icons-round gris'>add</span> Agregar
-				</button>
+				<StyledButton className='add-button-desktop' text='Agregar' icon='add' onClick={add} />
 			</div>
 
 			<ul className='product-list width-limit-content'>

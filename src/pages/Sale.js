@@ -8,6 +8,7 @@ import { mapValueTo } from '../utils/FormUtils'
 import ProductsRepository from '../services/ProductsRepository'
 import PropTypes from 'prop-types'
 import { ProductDisplayWithStock } from '../components/ProductDisplay'
+import StyledButton from '../components/StyledButton'
 
 
 function Cart ({ items, removeItem }) {
@@ -56,7 +57,7 @@ function Cart ({ items, removeItem }) {
 				<p>Subtotal</p>
 				<input type='number' placeholder={subtotal} onChange={ mapValueTo((x) => setSubtotal(Number.parseFloat(x))) } />
 			</div>
-			<button className='confirmar-button' onClick={ finishSale }>Confirmar</button>
+			<StyledButton text='Confirmar' onClick={ finishSale } />
 		</div>
 	)
 }
