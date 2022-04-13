@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import ProductsRepository from '../services/ProductsRepository'
 import PropTypes from 'prop-types'
 import { ProductDisplay } from './ProductDisplay'
