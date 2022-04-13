@@ -43,8 +43,9 @@ function Administration () {
 	const reinvestment = sales.reduce((p, x) => p + x.purchase, 0)
 	const earnings = cashAvailable - reinvestment
 
-	const month = baseDate.toLocaleString('default', { month: 'short' })
-	const year = baseDate.toLocaleString('default', { year: 'numeric' })
+	const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+	const month = months[baseDate.getUTCMonth()]
+	const year = baseDate.getUTCFullYear()
 
 	return <AuthorizedPage className='movimiento-body'>
 		<NavBar title='Administración' />
@@ -62,9 +63,9 @@ function Administration () {
 			</div>
 
 		</div>
-		
+
 		<hr />
-		
+
 		<div className='balance'>
 			<p>Caja: ${cashAvailable}</p>
 			<p>Reinversi&oacute;n: ${reinvestment}</p>

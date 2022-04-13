@@ -4,8 +4,8 @@ import BaseRepository from './BaseRepository'
 
 class MovementsRepository extends BaseRepository {
 
-	constructor() {
-		super()
+	constructor(date) {
+		super(date)
 		this.investmentsCollection = collection(this.baseDocument, 'investments')
 		this.spendingsCollection =  collection(this.baseDocument, 'spendings')
 	}

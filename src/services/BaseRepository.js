@@ -1,7 +1,7 @@
 import { doc, collection, getFirestore, getDocs } from 'firebase/firestore'
 
 function dbKeyForperiod (date) {
-	return `${date.getUTCFullYear()}${date.getUTCMonth()}`
+	return `${date.getUTCFullYear()}${date.getUTCMonth() + 1}`
 }
 
 class BaseRepository {

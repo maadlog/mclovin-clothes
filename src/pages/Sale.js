@@ -29,7 +29,7 @@ function Cart ({ items, removeItem }) {
 		const productsRepo = new ProductsRepository()
 		for (const item of items) {
 			const newStock = item.qt - (products[item.desc] ?? 1)
-			productsRepo.setStock(item.key, newStock, item.desc)
+			productsRepo.setStock(item.id, newStock, item.desc)
 		}
 		navigate('/sale/finished')
 	}
