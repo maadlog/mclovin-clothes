@@ -1,9 +1,10 @@
 import NavBar from '../components/NavBar'
 import AuthorizedPage from '../components/AuthorizedPage'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ProductsRepository from '../services/ProductsRepository'
 import { ProductDisplay } from '../components/ProductDisplay'
+import { debounce } from 'lodash'
 
 export default function Stock () {
 	const [data, setData] = useState([])
@@ -20,16 +21,26 @@ export default function Stock () {
 		}
 	}, [filter])
 
+	const changeHandler = (event) => {
+		setFilter(event.target.value)
+	}
+
+	const debouncedChangeHandler = useMemo(
+		() => debounce(changeHandler, 300)
+		, [])
+
+	useEffect(() => {
+		return () => {
+			debouncedChangeHandler.cancel()
+		}
+	}, [])
+
+
 	return (
 		<AuthorizedPage className='movimiento-body'>
 			<NavBar title='Stock'/>
 			<div className='search-bar width-limit-content'>
-				<input type='search' ref={searchElement} placeholder={'Buscar ( * para ver todos )'}/>
-				<button className='icon-button search-button' onClick={ () => {
-					setFilter(searchElement.current.value)
-				}} >
-					<span className='material-icons-round gris'>search</span>
-				</button>
+				<input type='search' ref={searchElement} placeholder={'Buscar ( * para ver todos )'} onChange={debouncedChangeHandler}/>
 			</div>
 
 			<div className='width-limit-content'>

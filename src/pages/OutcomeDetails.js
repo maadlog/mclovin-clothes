@@ -25,10 +25,10 @@ function OutcomeDetails() {
 	const details = data
 		.sort((x, y) => x.timestamp > y.timestamp ? -1 : 1)
 		.map((x, index) => {
-			return (<div key={index}><p>{x.desc} : ${x.sale ?? x.amount}</p></div>)
+			return (<div key={index} className='detalle-movimiento width-limit-content'><p>{new Date(x.timestamp).toLocaleDateString()}</p><p>{x.desc}</p> <p>${x.sale ?? x.amount}</p></div>)
 		})
 
-	return <AuthorizedPage>
+	return <AuthorizedPage className='movimiento-body'>
 		<NavBar title='Egresos'/>
 		{ details }
 	</AuthorizedPage>

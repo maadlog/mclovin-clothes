@@ -23,8 +23,6 @@ function ProductSearch({ onProductSelect }) {
 		() => debounce(changeHandler, 300)
 		, [])
 
-	// Stop the invocation of the debounced function
-	// after unmounting
 	useEffect(() => {
 		return () => {
 			debouncedChangeHandler.cancel()

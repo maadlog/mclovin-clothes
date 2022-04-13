@@ -230,6 +230,9 @@ header button {
 .finished-botonera {
 	margin: 0;
 }
+.finished-container header {
+	width: 100%;
+}
 
 /* -------------FINISHED----------------*/
 /*-----------ADMINISTRACION--------------*/
@@ -500,6 +503,14 @@ header button {
 	align-self: flex-end;
 }
 /*-----------------Venta-----------------*/
+
+/*----------Detalle-----------*/
+.detalle-movimiento {
+	border-bottom: 1px solid grey;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
 
 @media screen and (max-width: 600px) {
 	.add-button-desktop {
