@@ -1,4 +1,4 @@
-import { doc, collection, getFirestore, getDocs } from 'firebase/firestore'
+import { doc, collection, getFirestore, getDocs, getDoc } from 'firebase/firestore'
 
 function dbKeyForperiod (date) {
 	return `${date.getUTCFullYear()}${date.getUTCMonth() + 1}`
@@ -19,6 +19,16 @@ class BaseRepository {
 			result.push({ id: doc.id, ...doc.data() })
 		})
 		return result
+	}
+
+	async _getDocById(id, collectionRef) {
+		const docRef = doc(collectionRef, id)
+		const snapshot = await getDoc(docRef)
+		if (snapshot.exists()) {
+			return { id: snapshot.id, ...snapshot.data() }
+		} else {
+			return undefined
+		}
 	}
 }
 

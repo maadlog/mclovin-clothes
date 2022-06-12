@@ -15,6 +15,8 @@ import Product from './pages/Product'
 import Administration from './pages/Administration'
 import IncomeDetails from './pages/IncomeDetails'
 import OutcomeDetails from './pages/OutcomeDetails'
+import DeleteConfirmationLayout from './components/DeleteConfirmationLayout'
+import MovementsRepository from './services/MovementsRepository'
 
 export default function App() {
 	const auth = getAuth()
@@ -39,6 +41,13 @@ export default function App() {
 						<FinishedLayout barTitle='Changuito!' title='Venta Cargada' backUrl='/sale' backText='Cargar otra Venta'/>
 					}/>
 					<Route path='/movement' element={<Movement/>} />
+					<Route path='/movement/:type/:id' element={<Movement/>} />
+					<Route path='/movement/investment/:id/delete' element={
+						<DeleteConfirmationLayout denomination='la inversión' deleteCallback={(id) => new MovementsRepository().deleteInvestment(id)} />
+					} />
+					<Route path='/movement/spending/:id/delete' element={
+						<DeleteConfirmationLayout denomination='el gasto' deleteCallback={(id) => new MovementsRepository().deleteSpending(id)} />
+					} />
 					<Route path='/movement/finished' element={
 						<FinishedLayout barTitle='Movimiento!' title='Movimiento Cargado' backUrl='/movement' backText='Cargar otro movimiento'/>
 					}/>

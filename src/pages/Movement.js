@@ -1,24 +1,48 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import AuthorizedPage from '../components/AuthorizedPage'
 import NavBar from '../components/NavBar'
 import MovementsRepository from '../services/MovementsRepository'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { mapValueTo } from '../utils/FormUtils'
 import StyledButton from '../components/StyledButton'
 
+const SPENDING_TYPE = 'spending'
+const INVESTMENT_TYPE = 'investment'
+
 function Movement () {
 	const navigate = useNavigate()
-	const [amount, setAmount] = useState(0)
-	const [description, setDescription] = useState('')
-	const [type, setType] = useState('spending')
+	const repo = new MovementsRepository()
+
+	const params = useParams()
+	const [type, setType] = useState(SPENDING_TYPE)
+	const [state, setState] = useState({ amount: 0, description: '' })
+
+	const setDescription = (description) => {
+		setState(prev => ({ ...prev, description }))
+	}
+	const setAmount = (amount) => {
+		setState(prev => ({ ...prev, amount }))
+	}
+
+	useEffect(() => {
+		if (!params.id) { return }
+		const isSpending = params.type === SPENDING_TYPE
+
+		const fetch = isSpending ? repo.getSpendingById(params.id) : repo.getInvestmentById(params.id)
+		fetch.then(doc => {
+			setState(() => doc)
+			setType(isSpending ? SPENDING_TYPE : INVESTMENT_TYPE)
+		})
+	}, [params])
+
 	const finishMovement = (event) => {
 		event.preventDefault()
 		const repo = new MovementsRepository()
 		if (type === 'spending') {
-			repo.saveSpending(description, amount)
+			repo.saveSpendingFull(state)
 				.then(() => navigate('/movement/finished'))
 		} else {
-			repo.saveInvestment(description, amount)
+			repo.saveInvestmentFull(state)
 				.then(() => navigate('/movement/finished'))
 		}
 	}
@@ -37,17 +61,17 @@ function Movement () {
 			<form className='form-movimiento'>
 				<div className='row'>
 					<label htmlFor='description'>Descripci&oacute;n</label>
-					<input type='text' id='description' onChange={ mapValueTo(setDescription) }/>
+					<input type='text' id='description' value={state.description} onChange={ mapValueTo(setDescription) }/>
 				</div>
 				<div className='row'>
 					<label htmlFor='value'>Monto</label>
-					<input type='number' id='value' onChange={ mapValueTo(setAmount) }/>
+					<input type='number' id='value' value={state.amount} onChange={ mapValueTo(setAmount) }/>
 				</div>
 				<div className='row'>
 					<label htmlFor='type'>Tipo</label>
-					<select id='type' onChange={ mapValueTo(setType) }>
-						<option label='Gasto' value='spending' />
-						<option label='Inversión' value='investment' />
+					<select id='type' value={type} onChange={ mapValueTo(setType) }>
+						<option label='Gasto' value={SPENDING_TYPE} />
+						<option label='Inversión' value={INVESTMENT_TYPE} />
 					</select>
 				</div>
 				<StyledButton onClick={finishMovement} text='Confirmar' />

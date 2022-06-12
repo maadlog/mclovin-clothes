@@ -16,7 +16,8 @@ class SalesRepository extends BaseRepository {
 	}
 
 	async getSales () {
-		return await this._getAllDocsFromCollection(this.salesCollection)
+		const sales = await this._getAllDocsFromCollection(this.salesCollection)
+		return sales.map(sale => ({ entity: 'Sale', ...sale }))
 	}
 }
 
