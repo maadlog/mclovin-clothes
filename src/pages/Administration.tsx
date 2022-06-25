@@ -9,6 +9,8 @@ import { Spending } from '../types/Spending'
 import { Investment } from '../types/Investment'
 import { Sale } from '../types/Sale'
 import { ProductPurchase } from '../types/ProductPurchase'
+import StyledButton from '../components/StyledButton'
+import { Product } from '../types/Product'
 
 function Administration () {
 	const [baseDate, setBaseDate] = useState(new Date())
@@ -17,12 +19,15 @@ function Administration () {
 	const [spendings, setSpendings] = useState<Spending[]>([])
 	const [investments, setInvestments] = useState<Investment[]>([])
 	const [purchases, setPurchases] = useState<ProductPurchase[]>([])
+	const [products, setProducts] = useState<Product[]>([])
 
 	const [showDatePicker, setShowDatePicker] = useState(false)
 	const [showSearch, setShowSearch] = useState(false)
+	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
 		if (!baseDate) { return }
+		setLoading(true)
 		async function fetch () {
 			const movementsRepo = new MovementsRepository(baseDate)
 			const salesRepo = new SalesRepository(baseDate)
@@ -31,6 +36,9 @@ function Administration () {
 			setSpendings(await movementsRepo.getSpendings())
 			setInvestments(await movementsRepo.getInvestments())
 			setPurchases(await productsRepo.getProductsPurchased())
+			setProducts(await productsRepo.getProducts('', null, 2000))
+
+			setLoading(false)
 		}
 		fetch()
 	}, [baseDate])
@@ -56,7 +64,7 @@ function Administration () {
 
 		<div className='periodo-container'>
 			<h2>Per&iacute;odo : <span className='underlined' onClick={() => setShowDatePicker(!showDatePicker) }>{month} {year}</span></h2>
-			<div style={{ display: showDatePicker ? 'flex' : 'none' }} className="search-container">
+			<div style={{ display: showDatePicker ? 'flex' : 'none' }} className='search-container'>
 				<input type='date' ref={ref} onChange={() => setShowSearch(true)}/>
 				<button style={{ display: showSearch? 'flex' : 'none' }} className='search-button' onClick={ () => {
 					setBaseDate(new Date(ref.current!.value))
@@ -93,6 +101,29 @@ function Administration () {
 			<p>Gastos: ${spendingsTotal}</p>
 			<StyledLink to={`/admin/outcome?baseDate=${baseDate.toISOString()}`} text='Detalles' />
 		</div>
+
+		{ loading && <p>LOADING...</p>}
+		<StyledButton text='Descargar DB' onClick={() => {
+			const exported = { 
+				sales,
+				spendings,
+				investments,
+				purchases,
+				products 
+			}
+			const text = JSON.stringify(exported)
+
+			const element = document.createElement('a')
+			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
+			element.setAttribute('download', 'db-'+baseDate.toISOString()+'.json')
+
+			element.style.display = 'none'
+			document.body.appendChild(element)
+
+			element.click()
+
+			document.body.removeChild(element)
+		}}/>
 
 	</AuthorizedPage>
 }
