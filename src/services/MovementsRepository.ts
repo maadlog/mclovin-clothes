@@ -7,10 +7,10 @@ import BaseRepository from './BaseRepository'
 class MovementsRepository extends BaseRepository {
 	investmentsCollection: CollectionReference
 	spendingsCollection: CollectionReference
-	constructor(date?: Date) {
-		super(date)
-		this.investmentsCollection = collection(this.baseDocument, 'investments')
-		this.spendingsCollection =  collection(this.baseDocument, 'spendings')
+	constructor() {
+		super()
+		this.investmentsCollection = collection(this.firestore, 'investments')
+		this.spendingsCollection =  collection(this.firestore, 'spendings')
 	}
 
 	async saveInvestment (description: string, amount: string) {

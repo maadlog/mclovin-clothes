@@ -21,10 +21,10 @@ class ProductsRepository extends BaseRepository {
 	productPurchasesCollection: CollectionReference
 	productsCollection: CollectionReference
 	
-	constructor(date?: Date) {
-		super(date)
+	constructor() {
+		super()
 		this.productsCollection = collection(this.firestore, 'products')
-		this.productPurchasesCollection = collection(this.baseDocument, 'product-purchases')
+		this.productPurchasesCollection = collection(this.firestore, 'product-purchases')
 	}
 	async saveProduct (description: string, purchasePrice: string, salePrice: string, quantity: string, pictureFile?: Blob) {
 		if (!description || !purchasePrice || !salePrice || !quantity) {

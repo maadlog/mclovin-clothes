@@ -16,10 +16,9 @@ function OutcomeDetails() {
 	const [data, setData] = useState<Array<Spending|ProductPurchase>>([])
 
 	useEffect(() => {
-		const baseDate = new Date(paramsDate!)
 		async function fetch () {
-			const movementsRepo = new MovementsRepository(baseDate)
-			const productsRepo = new ProductsRepository(baseDate)
+			const movementsRepo = new MovementsRepository()
+			const productsRepo = new ProductsRepository()
 			const spendings: Array<Spending|ProductPurchase> = await movementsRepo.getSpendings()
 			const purchases = await productsRepo.getProductsPurchased()
 			setData(spendings.concat(purchases))
@@ -39,7 +38,7 @@ function OutcomeDetails() {
 	const details = data
 		.sort((x, y) => x.timestamp > y.timestamp ? -1 : 1)
 		.map((x, index) => {
-			const xAsAny: any = x
+			const xAsAny: { desc?: string, description?: string, sale?: number, amount?: number } = x
 			return (<div key={index} className='detalle-movimiento width-limit-content'>
 				<p>{new Date(x.timestamp).toLocaleDateString()}</p>
 				<p>{xAsAny.desc ?? xAsAny.description}</p> // TODO: Normalize description fields

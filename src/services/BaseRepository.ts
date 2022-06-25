@@ -1,18 +1,9 @@
-import { doc, collection, getFirestore, getDocs, getDoc, Firestore, DocumentReference, CollectionReference } from 'firebase/firestore'
-
-function dbKeyForperiod (date: Date) {
-	return `${date.getUTCFullYear()}${date.getUTCMonth() + 1}`
-}
+import { doc, getFirestore, getDocs, getDoc, Firestore, CollectionReference } from 'firebase/firestore'
 
 class BaseRepository {
-	base: string
 	firestore: Firestore
-	baseDocument: DocumentReference
-	constructor(date: Date = new Date()) {
-		this.base = dbKeyForperiod(date)
+	constructor() {
 		this.firestore = getFirestore()
-		const ledgers = collection(this.firestore, 'monthly-ledgers')
-		this.baseDocument = doc(ledgers, this.base)
 	}
 
 	async _getAllDocsFromCollection<T extends { id: string }>(collectionRef: CollectionReference) {

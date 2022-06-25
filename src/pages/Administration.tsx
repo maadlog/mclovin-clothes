@@ -29,9 +29,9 @@ function Administration () {
 		if (!baseDate) { return }
 		setLoading(true)
 		async function fetch () {
-			const movementsRepo = new MovementsRepository(baseDate)
-			const salesRepo = new SalesRepository(baseDate)
-			const productsRepo = new ProductsRepository(baseDate)
+			const movementsRepo = new MovementsRepository()
+			const salesRepo = new SalesRepository()
+			const productsRepo = new ProductsRepository()
 			setSales(await salesRepo.getSales())
 			setSpendings(await movementsRepo.getSpendings())
 			setInvestments(await movementsRepo.getInvestments())
@@ -67,7 +67,8 @@ function Administration () {
 			<div style={{ display: showDatePicker ? 'flex' : 'none' }} className='search-container'>
 				<input type='date' ref={ref} onChange={() => setShowSearch(true)}/>
 				<button style={{ display: showSearch? 'flex' : 'none' }} className='search-button' onClick={ () => {
-					setBaseDate(new Date(ref.current!.value))
+					if (!ref.current) { return }
+					setBaseDate(new Date(ref.current.value))
 					setShowSearch(false)
 				}} >
 					<span className='material-icons-round gris'>search</span>

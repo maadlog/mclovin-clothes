@@ -16,10 +16,9 @@ function IncomeDetails() {
 	const [data, setData] = useState<Array<Sale|Investment>>([])
 
 	useEffect(() => {
-		const baseDate = new Date(paramsDate!)
 		async function fetch () {
-			const movementsRepo = new MovementsRepository(baseDate)
-			const salesRepo = new SalesRepository(baseDate)
+			const movementsRepo = new MovementsRepository()
+			const salesRepo = new SalesRepository()
 
 			const sales: Array<Sale|Investment> = await salesRepo.getSales()
 			const investments = await movementsRepo.getInvestments()
@@ -40,7 +39,7 @@ function IncomeDetails() {
 	const details = data
 		.sort((x, y) => x.timestamp > y.timestamp ? -1 : 1)
 		.map((x, index) => {
-			const xAsAny = x as any
+			const xAsAny: { desc?: string, description?: string, sale?: number, amount?: number } = x
 			return (<div key={index} className='detalle-movimiento width-limit-content'>
 				<p>{new Date(x.timestamp).toLocaleDateString()}</p>
 				<p>{xAsAny.desc ?? xAsAny.description}</p>
