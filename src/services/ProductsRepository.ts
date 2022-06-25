@@ -43,7 +43,8 @@ class ProductsRepository extends BaseRepository {
 		const purchaseDocRef = doc(this.productPurchasesCollection, docRef.id)
 		await setDoc(purchaseDocRef, {
 			desc: `${value.desc}*${value.qt}`,
-			amount: value.purchase * value.qt
+			amount: value.purchase * value.qt,
+			timestamp : Timestamp.now().toMillis(),
 		})
 
 		if (pictureFile) {
@@ -89,8 +90,10 @@ class ProductsRepository extends BaseRepository {
 		return result
 	}
 
-	async getProductsPurchased (): Promise<ProductPurchase[]> {
-		const purchases = await this._getAllDocsFromCollection(this.productPurchasesCollection)
+	async getProductsPurchasedFrom (date: Date): Promise<ProductPurchase[]> {
+		const timestampFilter = this._withTimestampBetween(date)
+		const request = query(this.productPurchasesCollection, ...timestampFilter)
+		const purchases = await this._query(request)
 		return purchases.map(x => x as unknown as ProductPurchase) // TODO: Use transformer
 	}
 }

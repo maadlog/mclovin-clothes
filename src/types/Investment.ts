@@ -1,5 +1,5 @@
-import { Movement } from "./Movement"
+import { Movement } from './Movement'
 
 export interface Investment extends Movement {
-    entity: "Investment"
+    entity: 'Investment'
 }

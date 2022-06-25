@@ -17,11 +17,14 @@ function IncomeDetails() {
 
 	useEffect(() => {
 		async function fetch () {
+			const baseDate = paramsDate ? new Date(paramsDate) : new Date()
+			const startOfMonth = new Date(baseDate.getFullYear(), baseDate.getMonth(), 1)
+
 			const movementsRepo = new MovementsRepository()
 			const salesRepo = new SalesRepository()
 
-			const sales: Array<Sale|Investment> = await salesRepo.getSales()
-			const investments = await movementsRepo.getInvestments()
+			const sales: Array<Sale|Investment> = await salesRepo.getSalesFrom(startOfMonth)
+			const investments = await movementsRepo.getInvestmentsFrom(startOfMonth)
 
 			setData(sales.concat(investments))
 		}

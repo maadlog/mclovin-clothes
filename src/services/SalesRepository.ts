@@ -1,4 +1,4 @@
-import { addDoc, collection, CollectionReference, Timestamp } from 'firebase/firestore'
+import { addDoc, collection, CollectionReference, query, Timestamp } from 'firebase/firestore'
 import { Sale } from '../types/Sale'
 import BaseRepository from './BaseRepository'
 
@@ -18,8 +18,10 @@ class SalesRepository extends BaseRepository {
 		})
 	}
 
-	async getSales (): Promise<Sale[]> {
-		const sales = await this._getAllDocsFromCollection(this.salesCollection)
+	async getSalesFrom (date: Date): Promise<Sale[]> {
+		const timestampFilter = this._withTimestampBetween(date)
+		const request = query(this.salesCollection, ...timestampFilter)
+		const sales = await this._query(request)
 		return sales.map(sale => {
 			const result: unknown = ({ entity: 'Sale', ...sale }) // TODO: Use transformer
 			return result as Sale

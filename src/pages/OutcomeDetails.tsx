@@ -17,10 +17,13 @@ function OutcomeDetails() {
 
 	useEffect(() => {
 		async function fetch () {
+			const baseDate = paramsDate ? new Date(paramsDate) : new Date()
+			const startOfMonth = new Date(baseDate.getFullYear(), baseDate.getMonth(), 1)
+
 			const movementsRepo = new MovementsRepository()
 			const productsRepo = new ProductsRepository()
-			const spendings: Array<Spending|ProductPurchase> = await movementsRepo.getSpendings()
-			const purchases = await productsRepo.getProductsPurchased()
+			const spendings: Array<Spending|ProductPurchase> = await movementsRepo.getSpendingsFrom(startOfMonth)
+			const purchases = await productsRepo.getProductsPurchasedFrom(startOfMonth)
 			setData(spendings.concat(purchases))
 		}
 		fetch()

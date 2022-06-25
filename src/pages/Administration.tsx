@@ -27,15 +27,16 @@ function Administration () {
 
 	useEffect(() => {
 		if (!baseDate) { return }
+		const startOfMonth = new Date(baseDate.getFullYear(), baseDate.getMonth(), 1)
 		setLoading(true)
 		async function fetch () {
 			const movementsRepo = new MovementsRepository()
 			const salesRepo = new SalesRepository()
 			const productsRepo = new ProductsRepository()
-			setSales(await salesRepo.getSales())
-			setSpendings(await movementsRepo.getSpendings())
-			setInvestments(await movementsRepo.getInvestments())
-			setPurchases(await productsRepo.getProductsPurchased())
+			setSales(await salesRepo.getSalesFrom(startOfMonth))
+			setSpendings(await movementsRepo.getSpendingsFrom(startOfMonth))
+			setInvestments(await movementsRepo.getInvestmentsFrom(startOfMonth))
+			setPurchases(await productsRepo.getProductsPurchasedFrom(startOfMonth))
 			setProducts(await productsRepo.getProducts('', null, 2000))
 
 			setLoading(false)

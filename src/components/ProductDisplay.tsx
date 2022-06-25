@@ -14,7 +14,14 @@ export function ProductDisplayWithStock({ product, stock, onChange }: ProductDis
 		new ProductsRepository()
 			.getPictureUrl(product.id)
 			.then(setImage)
-			.catch(() => { console.log('Failed loading picture for '+product.id)})
+			.catch((error) => { switch (error.code) {
+			case 'storage/object-not-found':
+				// File doesn't exist
+				break
+			default:
+				console.error('Failed loading picture for '+product.id)
+				break
+			}})
 	}, [product])
 
 	return <li className='product-display'>
@@ -48,7 +55,14 @@ export function ProductDisplay({ product, onClick }: ProductDisplayProps) {
 		new ProductsRepository()
 			.getPictureUrl(product.id)
 			.then(setImage)
-			.catch(() => { console.log('Failed loading picture for '+product.id)})
+			.catch((error) => { switch (error.code) {
+			case 'storage/object-not-found':
+				// File doesn't exist
+				break
+			default:
+				console.error('Failed loading picture for '+product.id)
+				break
+			}})
 	}, [product])
 
 	return <li className='product-display' onClick={() => { onClick && onClick() }}>

@@ -1,4 +1,4 @@
-import { addDoc, collection, CollectionReference, deleteDoc, doc, setDoc } from 'firebase/firestore'
+import { addDoc, collection, CollectionReference, deleteDoc, doc, query, setDoc } from 'firebase/firestore'
 import { Timestamp } from 'firebase/firestore'
 import { Investment } from '../types/Investment'
 import { Spending } from '../types/Spending'
@@ -35,16 +35,20 @@ class MovementsRepository extends BaseRepository {
 		})
 	}
 
-	async getInvestments () {
-		const investments = await this._getAllDocsFromCollection(this.investmentsCollection)
+	async getInvestmentsFrom (date: Date) {
+		const timestampFilter = this._withTimestampBetween(date)
+		const request = query(this.investmentsCollection, ...timestampFilter)
+		const investments = await this._query(request)
 		return investments.map(investment => {
 			const result: unknown = ({ entity: 'Investment', ...investment })
 			return result as Investment
 		})
 	}
 
-	async getSpendings (): Promise<Spending[]> {
-		const spendings = await this._getAllDocsFromCollection(this.spendingsCollection)
+	async getSpendingsFrom (date: Date): Promise<Spending[]> {
+		const timestampFilter = this._withTimestampBetween(date)
+		const request = query(this.spendingsCollection, ...timestampFilter)
+		const spendings = await this._query(request)
 		return spendings.map(spending => {
 			const result: unknown = ({ entity: 'Spending', ...spending })  //TODO use transformer
 			return result as Spending
