@@ -20,9 +20,10 @@ const app = initializeApp(firebaseConfig)
 
 const firestore = getFirestore(app)
 const storage = getStorage(app)
+const USE_SIMULATORS = true
 
 // eslint-disable-next-line no-restricted-globals
-if (location.hostname === 'localhost') {
+if (USE_SIMULATORS && location.hostname === 'localhost') {
 	connectFirestoreEmulator(firestore, 'localhost', 8080)
 	connectStorageEmulator(storage, 'localhost', 9199)
 }
