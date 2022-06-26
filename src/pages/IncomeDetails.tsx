@@ -8,6 +8,7 @@ import StyledButton from '../components/StyledButton'
 import { useCallback } from 'react'
 import { Investment } from '../types/Investment'
 import { Sale } from '../types/Sale'
+import { Timestamp } from 'firebase/firestore'
 
 function IncomeDetails() {
 	const [searchParams] = useSearchParams()
@@ -44,8 +45,8 @@ function IncomeDetails() {
 		.map((x, index) => {
 			const xAsAny: { desc?: string, description?: string, sale?: number, amount?: number } = x
 			return (<div key={index} className='detalle-movimiento width-limit-content'>
-				<p>{new Date(x.timestamp).toLocaleDateString()}</p>
-				<p>{xAsAny.desc ?? xAsAny.description}</p>
+				<p>{ Timestamp.fromMillis(x.timestamp).toDate().toISOString().split('T')[0] }</p>
+				<p>{xAsAny.desc ?? xAsAny.description}</p> { /* TODO: Normalize description fields */ }
 				<p>${xAsAny.sale ?? xAsAny.amount}</p>
 				{ x.entity === 'Investment' && <StyledButton onClick={() => edit(x)} text='Editar' /> }
 				{ x.entity === 'Investment' && <StyledButton onClick={() => remove(x)} text='Borrar' /> }

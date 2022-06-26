@@ -8,6 +8,7 @@ import { useCallback } from 'react'
 import StyledButton from '../components/StyledButton'
 import { Spending } from '../types/Spending'
 import { ProductPurchase } from '../types/ProductPurchase'
+import { Timestamp } from 'firebase/firestore'
 
 function OutcomeDetails() {
 	const [searchParams] = useSearchParams()
@@ -43,8 +44,8 @@ function OutcomeDetails() {
 		.map((x, index) => {
 			const xAsAny: { desc?: string, description?: string, sale?: number, amount?: number } = x
 			return (<div key={index} className='detalle-movimiento width-limit-content'>
-				<p>{new Date(x.timestamp).toLocaleDateString()}</p>
-				<p>{xAsAny.desc ?? xAsAny.description}</p> // TODO: Normalize description fields
+				<p>{ Timestamp.fromMillis(x.timestamp).toDate().toISOString().split('T')[0] }</p>
+				<p>{xAsAny.desc ?? xAsAny.description}</p> { /* TODO: Normalize description fields */ }
 				<p>${xAsAny.sale ?? x.amount}</p>
 				{ x.entity === 'Spending' && <StyledButton onClick={() => edit(x as Spending)} text='Editar' /> }
 				{ x.entity === 'Spending' && <StyledButton onClick={() => remove(x as Spending)} text='Borrar' /> }

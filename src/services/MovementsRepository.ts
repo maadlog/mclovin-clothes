@@ -1,4 +1,4 @@
-import { addDoc, collection, CollectionReference, deleteDoc, doc, query, setDoc } from 'firebase/firestore'
+import { collection, CollectionReference, deleteDoc, doc, query, setDoc } from 'firebase/firestore'
 import { Timestamp } from 'firebase/firestore'
 import { Investment } from '../types/Investment'
 import { Spending } from '../types/Spending'
@@ -11,28 +11,6 @@ class MovementsRepository extends BaseRepository {
 		super()
 		this.investmentsCollection = collection(this.firestore, 'investments')
 		this.spendingsCollection =  collection(this.firestore, 'spendings')
-	}
-
-	async saveInvestment (description: string, amount: string) {
-		if (!description || !amount) {
-			throw new Error('Validation error')
-		}
-		await addDoc(this.investmentsCollection, {
-			desc: description,
-			amount: Number.parseFloat(amount),
-			timestamp : Timestamp.now().toMillis()
-		})
-	}
-
-	async saveSpending (description: string, amount: string) {
-		if (!description || !amount) {
-			throw new Error('Validation error')
-		}
-		await addDoc(this.spendingsCollection, {
-			desc: description,
-			amount: Number.parseFloat(amount),
-			timestamp : Timestamp.now().toMillis()
-		})
 	}
 
 	async getInvestmentsFrom (date: Date) {
@@ -81,7 +59,7 @@ class MovementsRepository extends BaseRepository {
 			docRef = doc(this.investmentsCollection, investment.id)
 		} else {
 			docRef = doc(this.investmentsCollection)
-			investment.timestamp = Timestamp.now().toMillis()
+			investment.timestamp = investment.timestamp ?? Timestamp.now().toMillis()
 		}
 		
 		await setDoc(docRef, investment)
@@ -93,7 +71,7 @@ class MovementsRepository extends BaseRepository {
 			docRef = doc(this.spendingsCollection, spending.id)
 		} else {
 			docRef = doc(this.spendingsCollection)
-			spending.timestamp = Timestamp.now().toMillis()
+			spending.timestamp = spending.timestamp ?? Timestamp.now().toMillis()
 		}
 		await setDoc(docRef, spending)
 	}

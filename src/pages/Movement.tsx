@@ -8,9 +8,15 @@ import StyledButton from '../components/StyledButton'
 import { Movement as MovementInterface } from '../types/Movement'
 import { Spending } from '../types/Spending'
 import { Investment } from '../types/Investment'
+import { Timestamp } from 'firebase/firestore'
 
 const SPENDING_TYPE = 'spending'
 const INVESTMENT_TYPE = 'investment'
+
+type MakeOptional<Type, Key extends keyof Type> = Omit<Type, Key> &
+  Partial<Pick<Type, Key>>;
+
+type MovementData = MakeOptional<MovementInterface, 'id'>
 
 function Movement () {
 	const navigate = useNavigate()
@@ -18,13 +24,20 @@ function Movement () {
 
 	const params = useParams()
 	const [type, setType] = useState(SPENDING_TYPE)
-	const [state, setState] = useState<Partial<MovementInterface>>({ amount: 0, description: '' })
+	const [state, setState] = useState<MovementData>({ amount: 0, description: '', timestamp: nowMillis() })
 
 	const setDescription = (description: string) => {
 		setState(prev => ({ ...prev, description }))
 	}
 	const setAmount = (amount: string) => {
-		setState(prev => ({ ...prev, amount: Number.parseFloat(amount) }))
+		const num = Number.parseFloat(amount)
+		const amountSec = Number.isNaN(num) ? 0 : num
+		setState(prev => ({ ...prev, amount: amountSec }))
+	}
+	const setTimestamp = (dateString: string) => {
+		const date = new Date(dateString)
+		const millis = Timestamp.fromDate(date).toMillis()
+		setState(prev => ({ ...prev, timestamp: millis }))
 	}
 
 	useEffect(() => {
@@ -62,12 +75,16 @@ function Movement () {
 			</div>
 			<form className='form-movimiento'>
 				<div className='row'>
+					<label htmlFor='fecha'>Fecha</label>
+					<input type='date' id='fecha' value={dateFromMillis(state.timestamp)} onChange={ mapValueTo(setTimestamp) }/>
+				</div>
+				<div className='row'>
 					<label htmlFor='description'>Descripci&oacute;n</label>
 					<input type='text' id='description' value={state.description} onChange={ mapValueTo(setDescription) }/>
 				</div>
 				<div className='row'>
 					<label htmlFor='value'>Monto</label>
-					<input type='number' id='value' value={state.amount} onChange={ mapValueTo(setAmount) }/>
+					<input type='number' id='value' value={state.amount || ''} onChange={ mapValueTo(setAmount) }/>
 				</div>
 				<div className='row'>
 					<label htmlFor='type'>Tipo</label>
@@ -84,3 +101,13 @@ function Movement () {
 }
 
 export default Movement
+
+function dateFromMillis(timestampMillis: number): string {
+	const result = Timestamp.fromMillis(timestampMillis).toDate().toISOString().split('T')[0]
+	return result
+}
+
+function nowMillis(): number {
+	const result = Timestamp.now().toMillis()
+	return result
+}
