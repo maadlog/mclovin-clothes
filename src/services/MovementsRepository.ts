@@ -1,5 +1,4 @@
 import { collection, CollectionReference, deleteDoc, doc, query, setDoc } from 'firebase/firestore'
-import { Timestamp } from 'firebase/firestore'
 import { Investment } from '../types/Investment'
 import { Spending } from '../types/Spending'
 import BaseRepository from './BaseRepository'
@@ -59,7 +58,6 @@ class MovementsRepository extends BaseRepository {
 			docRef = doc(this.investmentsCollection, investment.id)
 		} else {
 			docRef = doc(this.investmentsCollection)
-			investment.timestamp = investment.timestamp ?? Timestamp.now().toMillis()
 		}
 		
 		await setDoc(docRef, investment)
@@ -71,7 +69,6 @@ class MovementsRepository extends BaseRepository {
 			docRef = doc(this.spendingsCollection, spending.id)
 		} else {
 			docRef = doc(this.spendingsCollection)
-			spending.timestamp = spending.timestamp ?? Timestamp.now().toMillis()
 		}
 		await setDoc(docRef, spending)
 	}

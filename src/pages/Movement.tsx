@@ -3,18 +3,16 @@ import AuthorizedPage from '../components/AuthorizedPage'
 import NavBar from '../components/NavBar'
 import MovementsRepository from '../services/MovementsRepository'
 import { useEffect, useState } from 'react'
-import { mapValueTo } from '../utils/FormUtils'
+import { dateFromMillis, mapValueTo, nowMillis } from '../utils/FormUtils'
 import StyledButton from '../components/StyledButton'
 import { Movement as MovementInterface } from '../types/Movement'
 import { Spending } from '../types/Spending'
 import { Investment } from '../types/Investment'
 import { Timestamp } from 'firebase/firestore'
+import { MakeOptional } from '../types/utils/MakeOptional'
 
 const SPENDING_TYPE = 'spending'
 const INVESTMENT_TYPE = 'investment'
-
-type MakeOptional<Type, Key extends keyof Type> = Omit<Type, Key> &
-  Partial<Pick<Type, Key>>;
 
 type MovementData = MakeOptional<MovementInterface, 'id'>
 
@@ -101,13 +99,3 @@ function Movement () {
 }
 
 export default Movement
-
-function dateFromMillis(timestampMillis: number): string {
-	const result = Timestamp.fromMillis(timestampMillis).toDate().toISOString().split('T')[0]
-	return result
-}
-
-function nowMillis(): number {
-	const result = Timestamp.now().toMillis()
-	return result
-}
