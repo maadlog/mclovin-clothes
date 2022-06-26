@@ -1,7 +1,7 @@
-import { Timestamp } from 'firebase/firestore'
 import { useCallback } from 'react'
 import { NavigateFunction } from 'react-router-dom'
 import { Investment } from '../../types/Investment'
+import { millisToFormDateString } from '../../utils/FormUtils'
 import StyledButton from '../StyledButton'
 
 interface Props {
@@ -19,7 +19,7 @@ const InvestmentRow = ({ value, navigate }: Props) => {
 	}, [])
 
 	return (<div className='detalle-movimiento width-limit-content'>
-		<p>{ Timestamp.fromMillis(value.timestamp).toDate().toISOString().split('T')[0] }</p>
+		<p>{ millisToFormDateString(value.timestamp) }</p>
 		<p>Inversi&oacute;n: { value.description }</p>
 		<p>${ value.amount }</p>
 		<StyledButton onClick={() => edit(value)} text='Editar' />

@@ -3,7 +3,7 @@ import AuthorizedPage from '../components/AuthorizedPage'
 import { useNavigate, useParams } from 'react-router-dom'
 import ProductsRepository from '../services/ProductsRepository'
 import { useEffect, useState } from 'react'
-import { dateFromMillis, mapValueTo } from '../utils/FormUtils'
+import { dateToFormString, mapValueTo, millisToFormDateString } from '../utils/FormUtils'
 import CompressedImageInput from '../components/CompressedImageInput'
 import StyledButton from '../components/StyledButton'
 import { Timestamp } from 'firebase/firestore'
@@ -14,7 +14,7 @@ function Product () {
 	const [purchasePrice, setPurchasePrice] = useState('')
 	const [salePrice, setSalePrice] = useState('')
 	const [quantity, setQuantity] = useState('')
-	const [timestamp, setTimestamp] = useState(new Date().toISOString().split('T')[0])
+	const [timestamp, setTimestamp] = useState(dateToFormString(new Date()))
 	const [pictureFile, setPictureFile] = useState<Blob>()
 	const repo = new ProductsRepository()
 	const [loading, setLoading] = useState(false)
@@ -28,7 +28,7 @@ function Product () {
 			setPurchasePrice(doc.purchase.toString())
 			setSalePrice(doc.sale.toString())
 			setQuantity(doc.qt.toString())
-			setTimestamp(dateFromMillis(doc.timestamp))
+			setTimestamp(millisToFormDateString(doc.timestamp))
 			setLoading(false)
 		})
 		// TODO: Download image

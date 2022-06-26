@@ -1,5 +1,5 @@
-import { Timestamp } from 'firebase/firestore'
 import { Sale } from '../../types/Sale'
+import { millisToFormDateString } from '../../utils/FormUtils'
 
 interface Props {
     value: Sale
@@ -7,7 +7,7 @@ interface Props {
 
 const SaleRow = ({ value }: Props) => {
 	return (<div className='detalle-movimiento width-limit-content'>
-		<p>{ Timestamp.fromMillis(value.timestamp).toDate().toISOString().split('T')[0] }</p>
+		<p>{ millisToFormDateString(value.timestamp) }</p>
 		<p>Venta: { value.desc }</p>
 		<p>${ value.sale }</p>
 	</div>)

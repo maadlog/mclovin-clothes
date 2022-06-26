@@ -3,7 +3,7 @@ import AuthorizedPage from '../components/AuthorizedPage'
 import NavBar from '../components/NavBar'
 import MovementsRepository from '../services/MovementsRepository'
 import { useEffect, useState } from 'react'
-import { dateFromMillis, mapValueTo, nowMillis } from '../utils/FormUtils'
+import { mapValueTo, millisToFormDateString, nowMillis } from '../utils/FormUtils'
 import StyledButton from '../components/StyledButton'
 import { Movement as MovementInterface } from '../types/Movement'
 import { Spending } from '../types/Spending'
@@ -74,7 +74,7 @@ function Movement () {
 			<form className='form-movimiento'>
 				<div className='row'>
 					<label htmlFor='fecha'>Fecha</label>
-					<input type='date' id='fecha' value={dateFromMillis(state.timestamp)} onChange={ mapValueTo(setTimestamp) }/>
+					<input type='date' id='fecha' value={millisToFormDateString(state.timestamp)} onChange={ mapValueTo(setTimestamp) }/>
 				</div>
 				<div className='row'>
 					<label htmlFor='description'>Descripci&oacute;n</label>

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import NavBar from '../components/NavBar'
 import ProductSearch from '../components/ProductSearch'
 import SalesRepository from '../services/SalesRepository'
-import { mapValueTo } from '../utils/FormUtils'
+import { dateToFormString, mapValueTo } from '../utils/FormUtils'
 import ProductsRepository from '../services/ProductsRepository'
 import PropTypes from 'prop-types'
 import { ProductDisplayWithStock } from '../components/ProductDisplay'
@@ -16,7 +16,7 @@ import { Timestamp } from 'firebase/firestore'
 function Cart ({ items, removeItem }: { items: Product[], removeItem: (itemDesc: string) => void }) {
 	const [products, setProducts] = useState<{[key: string]: number}>({})
 	const [manualSubtotal, setSubtotal] = useState<number|null>(null)
-	const [timestamp, setTimestamp] = useState(new Date().toISOString().split('T')[0])
+	const [timestamp, setTimestamp] = useState(dateToFormString(new Date()))
 	const navigate = useNavigate()
 	const finishSale = () => {
 		if (items.length === 0) { return }

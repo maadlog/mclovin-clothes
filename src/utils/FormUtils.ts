@@ -7,12 +7,16 @@ export function mapValueTo(fn: (value: string) => void) {
 	}
 }
 
-export function dateFromMillis(timestampMillis: number): string {
-	const result = Timestamp.fromMillis(timestampMillis).toDate().toISOString().split('T')[0]
-	return result
-}
-
 export function nowMillis(): number {
 	const result = Timestamp.now().toMillis()
 	return result
+}
+
+export function dateToFormString(date: Date) : string {
+	return date.toISOString().split('T')[0]
+}
+
+export function millisToFormDateString(timestampMillis: number): string {
+	const date = Timestamp.fromMillis(timestampMillis).toDate()
+	return dateToFormString(date)
 }
