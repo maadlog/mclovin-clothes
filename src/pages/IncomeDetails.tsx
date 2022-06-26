@@ -4,11 +4,10 @@ import { useEffect, useState } from 'react'
 import MovementsRepository from '../services/MovementsRepository'
 import SalesRepository from '../services/SalesRepository'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import StyledButton from '../components/StyledButton'
-import { useCallback } from 'react'
 import { Investment } from '../types/Investment'
 import { Sale } from '../types/Sale'
-import { Timestamp } from 'firebase/firestore'
+import InvestmentRow from '../components/DetailRows/InvestmentRow'
+import SaleRow from '../components/DetailRows/SaleRow'
 
 function IncomeDetails() {
 	const [searchParams] = useSearchParams()
@@ -32,25 +31,15 @@ function IncomeDetails() {
 		fetch()
 	}, [paramsDate])
 
-	const edit = useCallback((investment: Investment) => {
-		navigate('/movement/investment/'+investment.id)
-	}, [])
-
-	const remove = useCallback((investment: Investment) => {
-		navigate('/movement/investment/'+investment.id+'/delete')
-	}, [])
-
 	const details = data
 		.sort((x, y) => x.timestamp > y.timestamp ? -1 : 1)
-		.map((x, index) => {
-			const xAsAny: { desc?: string, description?: string, sale?: number, amount?: number } = x
-			return (<div key={index} className='detalle-movimiento width-limit-content'>
-				<p>{ Timestamp.fromMillis(x.timestamp).toDate().toISOString().split('T')[0] }</p>
-				<p>{xAsAny.desc ?? xAsAny.description}</p> { /* TODO: Normalize description fields */ }
-				<p>${xAsAny.sale ?? xAsAny.amount}</p>
-				{ x.entity === 'Investment' && <StyledButton onClick={() => edit(x)} text='Editar' /> }
-				{ x.entity === 'Investment' && <StyledButton onClick={() => remove(x)} text='Borrar' /> }
-			</div>)
+		.map((x) => {
+			switch (x.entity) {
+			case 'Investment':
+				return (<InvestmentRow key={x.id} value={x as Investment} navigate={navigate}/>)
+			default:
+				return (<SaleRow key={x.id} value={x as Sale}/>)
+			}
 		})
 
 	return <AuthorizedPage className='movimiento-body'>
