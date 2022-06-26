@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { mapValueTo } from '../utils/FormUtils'
 import CompressedImageInput from '../components/CompressedImageInput'
 import StyledButton from '../components/StyledButton'
+import { Timestamp } from 'firebase/firestore'
 
 function Product () {
 	const navigate = useNavigate()
@@ -13,11 +14,13 @@ function Product () {
 	const [purchasePrice, setPurchasePrice] = useState('')
 	const [salePrice, setSalePrice] = useState('')
 	const [quantity, setQuantity] = useState('')
+	const [timestamp, setTimestamp] = useState(new Date().toISOString().split('T')[0])
 	const [pictureFile, setPictureFile] = useState<Blob>()
 
 	const save = () => {
+		const dateToMillis = Timestamp.fromDate(new Date(timestamp)).toMillis()
 		new ProductsRepository()
-			.saveProduct(description, purchasePrice, salePrice, quantity, pictureFile)
+			.saveProduct(description, purchasePrice, salePrice, quantity, pictureFile, dateToMillis)
 			.then(()=> {
 				navigate('/product/add/finished')
 			})
@@ -27,7 +30,10 @@ function Product () {
 		<NavBar title='Cargar Artículo'/>
 		<form className='form-movimiento'>
 			<CompressedImageInput id='picture' setPictureFile={setPictureFile}/>
-
+			<div className='row'>
+				<label htmlFor='fecha'>Fecha</label>
+				<input type='date' id='fecha' value={timestamp} onChange={ mapValueTo(setTimestamp) }/>
+			</div>
 			<div className='row'>
 				<label htmlFor='description'>Descripci&oacute;n</label>
 				<input type='text' id='description' onChange={ mapValueTo(setDescription) } />

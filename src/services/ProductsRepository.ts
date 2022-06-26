@@ -26,7 +26,7 @@ class ProductsRepository extends BaseRepository {
 		this.productsCollection = collection(this.firestore, 'products')
 		this.productPurchasesCollection = collection(this.firestore, 'product-purchases')
 	}
-	async saveProduct (description: string, purchasePrice: string, salePrice: string, quantity: string, pictureFile?: Blob) {
+	async saveProduct (description: string, purchasePrice: string, salePrice: string, quantity: string, pictureFile?: Blob, timestamp?: number) {
 		if (!description || !purchasePrice || !salePrice || !quantity) {
 			throw new Error('Validation error')
 		}
@@ -36,7 +36,7 @@ class ProductsRepository extends BaseRepository {
 			purchase: Number.parseFloat(purchasePrice),
 			sale: Number.parseFloat(salePrice),
 			qt: Number.parseInt(quantity),
-			timestamp : Timestamp.now().toMillis()
+			timestamp : timestamp || Timestamp.now().toMillis()
 		}
 		const docRef = await addDoc(this.productsCollection, value)
 
@@ -44,7 +44,7 @@ class ProductsRepository extends BaseRepository {
 		await setDoc(purchaseDocRef, {
 			desc: `${value.desc}*${value.qt}`,
 			amount: value.purchase * value.qt,
-			timestamp : Timestamp.now().toMillis(),
+			timestamp : timestamp || Timestamp.now().toMillis(),
 		})
 
 		if (pictureFile) {

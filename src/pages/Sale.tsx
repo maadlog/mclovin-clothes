@@ -10,11 +10,13 @@ import PropTypes from 'prop-types'
 import { ProductDisplayWithStock } from '../components/ProductDisplay'
 import StyledButton from '../components/StyledButton'
 import { Product } from '../types/Product'
+import { Timestamp } from 'firebase/firestore'
 
 
 function Cart ({ items, removeItem }: { items: Product[], removeItem: (itemDesc: string) => void }) {
 	const [products, setProducts] = useState<{[key: string]: number}>({})
 	const [manualSubtotal, setSubtotal] = useState<number|null>(null)
+	const [timestamp, setTimestamp] = useState(new Date().toISOString().split('T')[0])
 	const navigate = useNavigate()
 	const finishSale = () => {
 		if (items.length === 0) { return }
@@ -27,9 +29,10 @@ function Cart ({ items, removeItem }: { items: Product[], removeItem: (itemDesc:
 		const salePrice = manualSubtotal ?? items.reduce((prev, item) => {
 			return prev + (item.sale * (products[item.desc] ?? 1))
 		}, 0)
-		new SalesRepository().saveSale(description, purchasePrice, salePrice)
+		const dateToMillis = Timestamp.fromDate(new Date(timestamp)).toMillis()
+		new SalesRepository().saveSale(description, purchasePrice, salePrice, dateToMillis)
 		const productsRepo = new ProductsRepository()
-		for (const item of items) {
+		for (const item of items) { 
 			const newStock = item.qt - (products[item.desc] ?? 1)
 			productsRepo.setStock(item.id, newStock, item.desc)
 		}
@@ -53,6 +56,10 @@ function Cart ({ items, removeItem }: { items: Product[], removeItem: (itemDesc:
 
 	return (
 		<div className='cart-container width-limit-content'>
+			<div className='row'>
+				<label htmlFor='fecha'>Fecha</label>
+				<input type='date' id='fecha' value={timestamp} onChange={ mapValueTo(setTimestamp) }/>
+			</div>
 			<ul className='cart-list'>{itemDisplays}</ul>
 			<div className='subtotal'>
 				<p>Subtotal</p>

@@ -9,12 +9,12 @@ class SalesRepository extends BaseRepository {
 		super()
 		this.salesCollection = collection(this.firestore, 'sales')
 	}
-	async saveSale(description: string, purchasePrice: number, salePrice: number) {
+	async saveSale(description: string, purchasePrice: number, salePrice: number, timestamp?: number) {
 		await addDoc(this.salesCollection, {
 			desc: description,
 			purchase: purchasePrice,
 			sale: salePrice,
-			timestamp: Timestamp.now().toMillis()
+			timestamp: timestamp ?? Timestamp.now().toMillis()
 		})
 	}
 
