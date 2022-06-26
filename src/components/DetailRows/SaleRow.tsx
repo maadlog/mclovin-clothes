@@ -8,7 +8,7 @@ interface Props {
 const SaleRow = ({ value }: Props) => {
 	return (<div className='detalle-movimiento width-limit-content'>
 		<p>{ Timestamp.fromMillis(value.timestamp).toDate().toISOString().split('T')[0] }</p>
-		<p>{ value.desc }</p>
+		<p>Venta: { value.desc }</p>
 		<p>${ value.sale }</p>
 	</div>)
 }

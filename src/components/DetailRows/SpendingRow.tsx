@@ -20,7 +20,7 @@ const SpendingRow = ({ value, navigate }: Props) => {
 
 	return (<div className='detalle-movimiento width-limit-content'>
 		<p>{ Timestamp.fromMillis(value.timestamp).toDate().toISOString().split('T')[0] }</p>
-		<p>{ value.description }</p>
+		<p>Gasto: { value.description }</p>
 		<p>${ value.amount }</p>
 		<StyledButton onClick={() => edit(value)} text='Editar' />
 		<StyledButton onClick={() => remove(value)} text='Borrar' />

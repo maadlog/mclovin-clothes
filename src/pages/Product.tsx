@@ -41,7 +41,7 @@ function Product () {
 		repo
 			.saveProduct(description, purchasePrice, salePrice, quantity, pictureFile, params.id, dateToMillis)
 			.then(()=> {
-				navigate('/product/add/finished')
+				navigate('/product/finished')
 			})
 	}
 

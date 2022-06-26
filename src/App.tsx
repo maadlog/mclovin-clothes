@@ -59,7 +59,7 @@ export default function App() {
 						<DeleteConfirmationLayout denomination='el producto' deleteCallback={(id) => new ProductsRepository().delete(id)} />
 					} />
 					<Route path='/product/finished' element={
-						<FinishedLayout barTitle='Cargar articulo!' title='Articulo Cargado' backUrl='/product/add' backText='Cargar otro artículo'/>
+						<FinishedLayout barTitle='Cargar articulo!' title='Articulo Cargado' backUrl='/product' backText='Cargar otro artículo'/>
 					}/>
 					<Route path='/admin' element={<Administration />} />
 					<Route path='/admin/income' element={<IncomeDetails />} />

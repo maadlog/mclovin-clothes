@@ -14,7 +14,7 @@ export default function Stock () {
 	const searchElement = useRef(null)
 	const navigate = useNavigate()
 	const add = () => {
-		navigate('/product/add')
+		navigate('/product')
 	}
 
 	useEffect(() => {
