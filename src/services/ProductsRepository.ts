@@ -10,6 +10,7 @@ import {
 	startAt,
 	endAt,
 	getDocs,
+	deleteDoc,
 	CollectionReference
 } from 'firebase/firestore'
 import BaseRepository from './BaseRepository'
@@ -65,8 +66,8 @@ class ProductsRepository extends BaseRepository {
 
 	async delete(id: string) {
 		await Promise.all([
-			doc(this.productsCollection, id),
-			doc(this.productPurchasesCollection, id),
+			deleteDoc(doc(this.productsCollection, id)),
+			deleteDoc(doc(this.productPurchasesCollection, id)),
 			this.deletePicture(id),
 		])
 	}
