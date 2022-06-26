@@ -17,6 +17,7 @@ import IncomeDetails from './pages/IncomeDetails'
 import OutcomeDetails from './pages/OutcomeDetails'
 import DeleteConfirmationLayout from './components/DeleteConfirmationLayout'
 import MovementsRepository from './services/MovementsRepository'
+import ProductsRepository from './services/ProductsRepository'
 
 export default function App() {
 	const auth = getAuth()
@@ -52,8 +53,12 @@ export default function App() {
 						<FinishedLayout barTitle='Movimiento!' title='Movimiento Cargado' backUrl='/movement' backText='Cargar otro movimiento'/>
 					}/>
 					<Route path='/stock' element={<Stock />} />
-					<Route path='/product/add' element={<Product />} />
-					<Route path='/product/add/finished' element={
+					<Route path='/product' element={<Product />} />
+					<Route path='/product/:id' element={<Product />} />
+					<Route path='/product/:id/delete' element={
+						<DeleteConfirmationLayout denomination='el producto' deleteCallback={(id) => new ProductsRepository().delete(id)} />
+					} />
+					<Route path='/product/finished' element={
 						<FinishedLayout barTitle='Cargar articulo!' title='Articulo Cargado' backUrl='/product/add' backText='Cargar otro artículo'/>
 					}/>
 					<Route path='/admin' element={<Administration />} />

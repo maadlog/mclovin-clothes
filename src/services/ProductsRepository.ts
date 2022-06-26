@@ -13,7 +13,7 @@ import {
 	CollectionReference
 } from 'firebase/firestore'
 import BaseRepository from './BaseRepository'
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { getStorage, ref, uploadBytes, deleteObject, getDownloadURL } from 'firebase/storage'
 import { Product } from '../types/Product'
 import { ProductPurchase } from '../types/ProductPurchase'
 
@@ -26,7 +26,7 @@ class ProductsRepository extends BaseRepository {
 		this.productsCollection = collection(this.firestore, 'products')
 		this.productPurchasesCollection = collection(this.firestore, 'product-purchases')
 	}
-	async saveProduct (description: string, purchasePrice: string, salePrice: string, quantity: string, pictureFile?: Blob, timestamp?: number) {
+	async saveProduct (description: string, purchasePrice: string, salePrice: string, quantity: string, pictureFile?: Blob, id?: string, timestamp?: number) {
 		if (!description || !purchasePrice || !salePrice || !quantity) {
 			throw new Error('Validation error')
 		}
@@ -38,7 +38,13 @@ class ProductsRepository extends BaseRepository {
 			qt: Number.parseInt(quantity),
 			timestamp : timestamp || Timestamp.now().toMillis()
 		}
-		const docRef = await addDoc(this.productsCollection, value)
+		let docRef
+		if (id) {
+			docRef = doc(this.productsCollection, id)
+			setDoc(docRef, value)
+		} else {
+			docRef = await addDoc(this.productsCollection, value)
+		}
 
 		const purchaseDocRef = doc(this.productPurchasesCollection, docRef.id)
 		await setDoc(purchaseDocRef, {
@@ -50,6 +56,19 @@ class ProductsRepository extends BaseRepository {
 		if (pictureFile) {
 			await this.setPicture(docRef.id, pictureFile)
 		}
+	}
+
+	async getProductById(id: string) {
+		const result: unknown = await this._getDocById(id, this.productsCollection)
+		return result as Product
+	}
+
+	async delete(id: string) {
+		await Promise.all([
+			doc(this.productsCollection, id),
+			doc(this.productPurchasesCollection, id),
+			this.deletePicture(id),
+		])
 	}
 
 	async setStock (productKey: string, quantity: number, desc: string) {
@@ -68,6 +87,10 @@ class ProductsRepository extends BaseRepository {
 
 	async setPicture (productKey: string, imageFile: Blob) {
 		await uploadBytes(this._getPictureReference(productKey), imageFile)
+	}
+
+	async deletePicture(productKey: string) {
+		await deleteObject(this._getPictureReference(productKey))
 	}
 
 	async getPictureUrl (productKey: string) {

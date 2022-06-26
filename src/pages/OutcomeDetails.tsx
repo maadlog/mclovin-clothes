@@ -4,11 +4,10 @@ import { useEffect, useState } from 'react'
 import MovementsRepository from '../services/MovementsRepository'
 import ProductsRepository from '../services/ProductsRepository'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useCallback } from 'react'
-import StyledButton from '../components/StyledButton'
 import { Spending } from '../types/Spending'
 import { ProductPurchase } from '../types/ProductPurchase'
-import { Timestamp } from 'firebase/firestore'
+import SpendingRow from '../components/DetailRows/SpendingRow'
+import ProductPurchaseRow from '../components/DetailRows/ProductPurchaseRow'
 
 function OutcomeDetails() {
 	const [searchParams] = useSearchParams()
@@ -30,26 +29,15 @@ function OutcomeDetails() {
 		fetch()
 	}, [paramsDate])
 
-
-	const edit = useCallback((spending: Spending) => {
-		navigate('/movement/spending/'+spending.id)
-	}, [])
-
-	const remove = useCallback((spending: Spending) => {
-		navigate('/movement/spending/'+spending.id+'/delete')
-	}, [])
-
 	const details = data
 		.sort((x, y) => x.timestamp > y.timestamp ? -1 : 1)
-		.map((x, index) => {
-			const xAsAny: { desc?: string, description?: string, sale?: number, amount?: number } = x
-			return (<div key={index} className='detalle-movimiento width-limit-content'>
-				<p>{ Timestamp.fromMillis(x.timestamp).toDate().toISOString().split('T')[0] }</p>
-				<p>{xAsAny.desc ?? xAsAny.description}</p> { /* TODO: Normalize description fields */ }
-				<p>${xAsAny.sale ?? x.amount}</p>
-				{ x.entity === 'Spending' && <StyledButton onClick={() => edit(x as Spending)} text='Editar' /> }
-				{ x.entity === 'Spending' && <StyledButton onClick={() => remove(x as Spending)} text='Borrar' /> }
-			</div>)
+		.map((x) => {
+			switch (x.entity) {
+			case 'Spending':
+				return <SpendingRow key={x.id} value={x as Spending} navigate={navigate} />
+			default:
+				return <ProductPurchaseRow key={x.id} value={x as ProductPurchase} navigate={navigate} />
+			}
 		})
 
 	return <AuthorizedPage className='movimiento-body'>
